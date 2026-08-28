@@ -1,175 +1,132 @@
 # 🌱 Robotic Plant Phenotyping
 
-### Robust 3D plant phenotyping from monocular RGB images
+<p align="center">
+  <img src="https://www.ntnu.edu/documents/1294179/0/NTNU_logo.png" width="260">
+</p>
 
-An end-to-end robotic pipeline for **automated plant acquisition, 3D reconstruction, point-cloud segmentation, skeletonization, and phenotypic analysis**.
+<p align="center">
+  <b>Robust 3D plant phenotyping from monocular RGB images</b>
+</p>
 
-The system combines a **7-axis JetCobot**, ROS 2, multi-view RGB imaging, modern 3D reconstruction, point-cloud deep learning, and self-supervised representation learning.
+<p align="center">
+  <b>Aymen Turki</b><br>
+  INSAT · Intern at the Intelligent Systems and Analytics (ISA) Group · NTNU
+</p>
 
 <p align="center">
   <img src="./docs/plant_phenotyping.gif" width="850">
 </p>
 
-<p align="center">
-  <b>Robotic acquisition → 3D reconstruction → segmentation → skeletonization → phenotyping</b>
-</p>
+An end-to-end robotic pipeline for **automated plant acquisition, 3D reconstruction, point-cloud segmentation, skeletonization, and phenotypic analysis** using a monocular RGB camera mounted on a 7-axis robotic arm.
 
----
+The project investigates how reconstruction artifacts affect downstream 3D plant understanding and explores self-supervised learning for improved robustness.
 
-## 🔬 Overview
+## 🔬 Pipeline
 
-The platform is designed to investigate how reconstruction quality affects downstream plant analysis and how self-supervised learning can improve robustness to reconstructed point-cloud artifacts.
+```text
+Robotic Acquisition
+        ↓
+3D Reconstruction
+        ↓
+Point-Cloud Segmentation
+        ↓
+Self-Supervised Adaptation
+        ↓
+Skeletonization
+        ↓
+3D Plant Phenotyping
+```
+
+The system combines **JetCobot, ROS 2, MoveIt2, Gazebo, COLMAP, MASt3R, NeRF, 3D Gaussian Splatting, PTv3, Utonia, Barlow Twins, and PC-Skeletor**.
 
 <p align="center">
   <img src="./docs/pipeline.png" width="900">
 </p>
 
-The complete workflow consists of:
-
-**Robotic scanning**
-A wrist-mounted monocular RGB camera captures multiple views while the robot follows a planned trajectory around the plant.
-
-**3D reconstruction**
-RGB images are reconstructed using COLMAP and MASt3R, with NeRF and 3D Gaussian Splatting evaluated as neural scene representations.
-
-**Point-cloud segmentation**
-PointNet++, DGCNN and Point Transformer V3 are evaluated for plant structure segmentation.
-
-**Self-supervised adaptation**
-Barlow Twins and Utonia are investigated to improve robustness between clean and reconstructed point clouds.
-
-**Skeletonization & phenotyping**
-The segmented plant is converted into structural skeletons and quantitative phenotypic traits are extracted.
-
----
-
 ## 🤖 Robotic Acquisition
 
-The physical platform uses an **Elephant Robotics JetCobot 7-axis arm** with a wrist-mounted monocular RGB camera. ROS 2 and MoveIt2 control the scanning process, while Gazebo is used to validate trajectories before deployment.
+A **JetCobot 7-axis collaborative robotic arm** carries a wrist-mounted monocular RGB camera around the plant to acquire multi-view images.
 
-<p align="center">
-  <img src="./docs/jetcobot.gif" width="700">
-</p>
-
-The simulated environment also provides ground-truth camera poses for evaluating reconstruction accuracy.
-
----
+ROS 2 and MoveIt2 are used for motion planning and control, while Gazebo provides a simulated environment for trajectory validation and ground-truth camera poses.
 
 ## 🌐 3D Reconstruction
 
-Multiple reconstruction pipelines are investigated from the same RGB acquisition:
+RGB images are reconstructed using two complementary approaches:
 
-<p align="center">
-  <img src="./docs/3d_reconstruction.png" width="900">
-</p>
+| Method                    | Purpose                                             |
+| ------------------------- | --------------------------------------------------- |
+| **COLMAP**                | Structure-from-Motion and camera pose estimation    |
+| **MASt3R**                | Learning-based image matching and 3D reconstruction |
+| **NeRF**                  | Neural scene representation                         |
+| **3D Gaussian Splatting** | Neural scene representation                         |
 
-**Reconstruction methods**
-
-| Method                | Role                                                |
-| --------------------- | --------------------------------------------------- |
-| COLMAP                | Structure-from-Motion and sparse reconstruction     |
-| MASt3R                | Learning-based image matching and 3D reconstruction |
-| NeRF                  | Neural scene representation                         |
-| 3D Gaussian Splatting | Neural scene representation                         |
-
-COLMAP provides more stable camera trajectories in the evaluated setup, while MASt3R is affected by pose drift caused by repetitive plant textures.
-
----
+COLMAP provides more stable camera trajectories in the evaluated setup, while MASt3R is more affected by pose drift under repetitive plant textures.
 
 ## 🧠 Point-Cloud Segmentation
 
-The reconstructed plant point clouds are evaluated using three 3D segmentation architectures:
-
-<p align="center">
-  <img src="./segmentation/segmentation.png" width="850">
-</p>
+The reconstructed plant point clouds are evaluated with:
 
 **PointNet++ · DGCNN · Point Transformer V3**
 
-PTv3 achieves the strongest baseline performance on the clean ground-truth point cloud with **93.54% mIoU**. Reconstruction artifacts then cause a measurable degradation in segmentation performance.
-
----
+PTv3 provides the strongest clean-data baseline with **93.54% mIoU**. Reconstruction artifacts introduce missing points, uneven density, and geometric variations that reduce segmentation performance.
 
 ## 🔄 Self-Supervised Adaptation
 
-To improve robustness to reconstruction artifacts, paired **ground-truth and reconstructed point clouds** are used for self-supervised representation learning.
-
-<p align="center">
-  <img src="./SSL%20adaptation/barlow%20twins/barlow_twins.png" width="850">
-</p>
+Paired clean and reconstructed point clouds are used to learn representations that are more robust to reconstruction artifacts.
 
 Two approaches are investigated:
 
-**Utonia**
-A transferable 3D representation learning approach.
+**Utonia** — transferable 3D representation learning.
 
-**Barlow Twins**
-Learns representations by aligning the two domains while reducing feature redundancy.
+**Barlow Twins** — representation alignment through invariance and redundancy reduction.
 
-### Result
-
-Barlow Twins improves reconstructed-point-cloud segmentation from:
+### Barlow Twins Result
 
 **87.31% → 89.03% mIoU**
 
-representing a **+1.72 percentage-point improvement** over the supervised PTv3 baseline.
-
----
+**+1.72 percentage points** on reconstructed point clouds compared with supervised PTv3.
 
 ## 🦴 Skeletonization
 
-Following segmentation, the plant geometry is converted into a structural skeleton using **Laplacian-Based Contraction (LBC)** with the PC-Skeletor framework.
+Following segmentation, the plant geometry is converted into a structural skeleton using **Laplacian-Based Contraction (LBC)** with the **PC-Skeletor** framework.
 
-<p align="center">
-  <img src="./skeletonization/skeletonization.png" width="850">
-</p>
+The skeleton provides a compact representation for structural and topological analysis, including plant connectivity and organ geometry.
 
-The resulting skeleton provides a compact representation of plant structure that can support geometric and topological analysis.
+## 🌿 3D Phenotyping
 
----
+The resulting 3D plant representation is used to extract quantitative traits including:
 
-## 🌿 Phenotyping
-
-The reconstructed and segmented plant is used to extract quantitative traits describing its geometry, structure, and appearance.
-
-<p align="center">
-  <img src="./docs/phenotyping.png" width="850">
-</p>
-
-**Geometric traits**
-
+**Geometry**
 Leaf dimensions · plant height · canopy width · volume
 
-**Structural traits**
-
+**Structure**
 Leaf orientation · spatial position · skeleton connectivity
 
 **Vegetation & appearance**
-
 Vegetation fraction · RGB-based plant health characteristics
 
-For the evaluated Ribes_04 plant, the pipeline obtained **34.64 cm height**, **21.71 × 22.16 cm canopy width**, and **88.25% vegetation fraction**.
+For the evaluated **Ribes_04** plant:
 
----
+| Trait               |                Value |
+| ------------------- | -------------------: |
+| Plant height        |         **34.64 cm** |
+| Canopy width        | **21.71 × 22.16 cm** |
+| Vegetation fraction |           **88.25%** |
+| Segmented instances |               **33** |
 
 ## 📊 Key Results
 
-| Component                       |       Result |
-| ------------------------------- | -----------: |
-| Best reconstruction PSNR        | **19.93 dB** |
-| Best reconstruction SSIM        |     **0.85** |
-| Best reconstruction LPIPS       |     **0.11** |
-| PTv3 clean mIoU                 |   **93.54%** |
-| PTv3 reconstructed mIoU         |   **87.31%** |
-| Barlow Twins reconstructed mIoU |   **89.03%** |
-| SSL improvement                 | **+1.72 pp** |
-| Vegetation fraction             |   **88.25%** |
+| Metric                                   |       Result |
+| ---------------------------------------- | -----------: |
+| Best reconstruction PSNR                 | **19.93 dB** |
+| Best reconstruction SSIM                 |     **0.85** |
+| Best reconstruction LPIPS                |     **0.11** |
+| PTv3 — clean mIoU                        |   **93.54%** |
+| PTv3 — reconstructed mIoU                |   **87.31%** |
+| PTv3 + Barlow Twins — reconstructed mIoU |   **89.03%** |
+| Barlow Twins improvement                 | **+1.72 pp** |
 
-The experiments demonstrate the impact of reconstruction quality on downstream plant understanding and show the potential of self-supervised adaptation for more robust 3D phenotyping.
-
----
-
-## 📁 Repository Structure
+## 📁 Repository
 
 ```text
 Robotic-Plant-Phenotyping/
@@ -186,37 +143,26 @@ Robotic-Plant-Phenotyping/
 └── references/
 ```
 
----
-
-## 📄 Documentation
+## 📄 Paper & Presentation
 
 <p align="center">
-
-<a href="./docs/paper.pdf">
-  <img src="https://img.shields.io/badge/📄%20Research%20Paper-PDF-red?style=for-the-badge">
-</a>
-&nbsp;
-<a href="./docs/presentation.pdf">
-  <img src="https://img.shields.io/badge/🎤%20Presentation-PDF-blue?style=for-the-badge">
-</a>
-
+  <a href="./docs/paper.pdf">
+    <img src="https://img.shields.io/badge/Research%20Paper-PDF-red?style=for-the-badge">
+  </a>
+  &nbsp;
+  <a href="./docs/presentation.pdf">
+    <img src="https://img.shields.io/badge/Presentation-PDF-blue?style=for-the-badge">
+  </a>
 </p>
-
----
 
 ## 📚 References
 
-Key methods and resources used throughout the project include:
-
-**COLMAP** · **MASt3R** · **NeRF** · **3D Gaussian Splatting** · **PointNet++** · **DGCNN** · **Point Transformer V3** · **Utonia** · **Barlow Twins** · **PC-Skeletor** · **PLANesT-3D**
-
-See [`references/`](./references/) for the collected research papers and resources.
-
----
+The `references/` directory contains the main research papers and resources used for the reconstruction, segmentation, self-supervised learning, skeletonization, and plant phenotyping stages.
 
 ## 👤 Author
 
 **Aymen Turki**
-INSAT · Intelligent Systems and Analytics Group, NTNU
 
-Research internship project focused on **robotic 3D plant phenotyping, reconstruction, segmentation, and robust point-cloud analysis**.
+INSAT · Intern at the **Intelligent Systems and Analytics (ISA) Group, NTNU**
+
+Focus: **robotic 3D plant phenotyping · 3D reconstruction · point-cloud segmentation · self-supervised learning**
