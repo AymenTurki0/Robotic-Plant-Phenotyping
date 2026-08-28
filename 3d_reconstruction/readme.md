@@ -112,7 +112,7 @@ $$
 The geodesic rotation error is calculated as:
 
 $$
-e_R^{(i)} = \cos^{-1} \left( \frac{ \operatorname{tr} \left( R_i\hat{R}_i^{\top} \right)-1 }{2} \right) \frac{180^\circ}{\pi}
+e_R^{(i)} = \cos^{-1} \left( \frac{ \mathrm{tr} \left( R_i\hat{R}_i^{\top} \right)-1 }{2} \right) \frac{180^\circ}{\pi}
 $$
 
 with the mean rotational error:
