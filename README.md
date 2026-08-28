@@ -33,7 +33,7 @@ Skeletonization
 The workflow combines robotic multi-view acquisition with 3D reconstruction, point-cloud analysis, self-supervised learning, skeletonization, and phenotypic trait extraction.
 
 <p align="center">
-  <img src="./docs/pipeline.png" width="900">
+  <img src="./assets/pipeline.jpeg" width="900">
 </p>
 
 ## 🤖 Robotic Acquisition
@@ -42,16 +42,25 @@ A **JetCobot 7-axis robotic arm** carries a wrist-mounted monocular RGB camera a
 
 ROS 2 and MoveIt2 control the scanning process, while Gazebo is used to validate trajectories and provide ground-truth camera poses.
 
-##  3D Reconstruction
+<p align="center">
+  <img src="./assets/robot.png" width="425">
+  <img src="./assets/robot1.jpeg" width="425">
+</p>
+
+## 🧊 3D Reconstruction
 
 RGB images are reconstructed using **COLMAP** and **MASt3R**, with **NeRF** and **3D Gaussian Splatting** evaluated as neural scene representations.
 
-| Method                    | Purpose                                             |
-| ------------------------- | --------------------------------------------------- |
-| **COLMAP**                | Structure-from-Motion and camera pose estimation    |
-| **MASt3R**                | Learning-based image matching and 3D reconstruction |
-| **NeRF**                  | Neural scene representation                         |
-| **3D Gaussian Splatting** | Neural scene representation                         |
+<p align="center">
+  <img src="./assets/reconstruct.png" width="800">
+</p>
+
+| Method                 | Purpose                                             |
+| ---------------------- | --------------------------------------------------- |
+| **COLMAP**             | Structure-from-Motion and camera pose estimation    |
+| **MASt3R**             | Learning-based image matching and 3D reconstruction |
+| **NeRF**               | Neural scene representation                         |
+| **3D Gaussian Splatting** | Neural scene representation                      |
 
 COLMAP provides more stable camera trajectories in the evaluated setup, while MASt3R is more affected by pose drift under repetitive plant textures.
 
@@ -65,9 +74,17 @@ PTv3 achieves the strongest clean-data baseline with **93.54% mIoU**.
 
 Reconstruction artifacts such as missing points, uneven density, and geometric variations reduce segmentation performance.
 
+<p align="center">
+  <img src="./assets/segmentation.png" width="800">
+</p>
+
 ## 🔄 Self-Supervised Adaptation
 
 Paired **clean and reconstructed point clouds** are used for self-supervised representation learning to improve robustness to reconstruction artifacts.
+
+<p align="center">
+  <img src="./assets/bt_ssl.png" width="800">
+</p>
 
 **Utonia**
 Transferable 3D representation learning.
@@ -87,9 +104,17 @@ Following segmentation, the plant geometry is converted into a structural skelet
 
 The resulting skeleton provides a compact representation for geometric and topological plant analysis.
 
+<p align="center">
+  <img src="./assets/skeleton.png" width="800">
+</p>
+
 ## 🌿 3D Phenotyping
 
 The reconstructed and segmented plant is used to extract quantitative traits describing its geometry, structure, and appearance.
+
+<p align="center">
+  <img src="./assets/health_classification.png" width="800">
+</p>
 
 **Geometry**
 Leaf dimensions · plant height · canopy width · volume
@@ -102,12 +127,12 @@ Vegetation fraction · RGB-based plant health characteristics
 
 For the evaluated **Ribes_04** plant:
 
-| Trait               |                Value |
-| ------------------- | -------------------: |
-| Plant height        |         **34.64 cm** |
-| Canopy width        | **21.71 × 22.16 cm** |
-| Vegetation fraction |           **88.25%** |
-| Segmented instances |               **33** |
+| Trait                |                Value |
+| -------------------- | -------------------: |
+| Plant height         |         **34.64 cm** |
+| Canopy width         | **21.71 × 22.16 cm** |
+| Vegetation fraction  |           **88.25%** |
+| Segmented instances  |               **33** |
 
 ## 📊 Key Results
 
@@ -139,7 +164,6 @@ Robotic-Plant-Phenotyping/
 ```
 
 ## 📄 Paper & Presentation
-
 
 <p align="center">
   <a href="./docs/Towards_Robust_3D_Plant_Phenotyping__Robotic_RGB_Reconstruction__Point_Cloud_Segmentation__and_Self_Supervised_Adaptation_V5.0.pdf">
