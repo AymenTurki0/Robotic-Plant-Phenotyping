@@ -44,13 +44,6 @@ jetcobot_ws/
 
 ## 🔗 References & Resources
 
-* **[Yahboom JetCobot – GitHub](https://github.com/YahboomTechnology/JetCobot)** — Official JetCobot source code and ROS resources.
-* **[JetCobot – Hackster.io](https://www.hackster.io/yahboomtechnology/unboxing-and-reviewing-jetcobot-7-axis-visual-collaborat-b15318)** — Hardware overview, setup, and development resources.
-* **[6.3D Model File](https://drive.google.com/open?id=1DPJp4ByiZvGxHmBm3SymkyipQxkkt7h3&usp=drive_copy)** — JetCobot 3D model files.
-* **[7.EMMC_Boot_File (For Jetson NANO SUB)](https://drive.google.com/open?id=1YuSlUTExZDuB0KZ8JQ-EEbxJRfT1Nneb&usp=drive_copy)** — EMMC boot files.
-* **[4.Instruction_Manual](https://drive.google.com/open?id=1SZhUih-T-MS-kminQAB9ZktC280gvWWn&usp=drive_copy)** — JetCobot instruction manual.
-* **[5.JetCobot_Code](https://drive.google.com/open?id=1nB55bX3oqY7k6T0p3zihAuWoSxHmvhch&usp=drive_copy)** — JetCobot software and code resources.
-* **[3.JetsonOrinNX_SystemFile](https://drive.google.com/open?id=1xOO9gf2P_zdjdp013C_fsaFOcD5xRT8t&usp=drive_copy)** — Jetson Orin NX system image.
-* **[2.JetsonOrinNANO_SystemFile](https://drive.google.com/open?id=14ADkC4rLD7OeEYsYop5xNrpAoevfNh6K&usp=drive_copy)** — Jetson Orin Nano system image.
-* **[1.JetsonNANO_SystemFile](https://drive.google.com/open?id=1JwvPNUAgfzz_uEAhAYRalYYUO8y5_VJ3&usp=drive_copy)** — Jetson Nano system image.
-* **[0.VM_File](https://drive.google.com/open?id=1MiiaHpgpGIeBbdeo0iB4_em8kzICyrCi&usp=drive_copy)** — Virtual machine image.
+* [**Yahboom JetCobot – GitHub**](https://github.com/YahboomTechnology/JetCobot) — Official JetCobot source code and ROS resources.
+* [**JetCobot – Hackster.io**](https://www.hackster.io/yahboomtechnology/unboxing-and-reviewing-jetcobot-7-axis-visual-collaborat-b15318) — Hardware overview, setup, and development resources.
+* [**JetCobot Resources – Google Drive**](https://drive.google.com/drive/folders/17ESHzZz1as8qinYm-W5RJok3hkD-Tmsp?usp=drive_link) — Complete collection of JetCobot resources, including 3D models, system files, EMMC boot files, instruction manual, and JetCobot software.
