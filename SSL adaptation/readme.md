@@ -1,14 +1,11 @@
-
 # Self-Supervised Learning
 
 The results in the reconstruction and segmentation stages show that **reconstruction artifacts can degrade segmentation performance**. Self-supervised learning (SSL) is therefore introduced to learn representations that are more robust to the differences between **clean ground-truth** and **reconstructed point clouds** of the same plant.
 
-The SSL stage uses a shared **Point Transformer V3 (PTv3)** backbone and compares two complementary approaches:
+The SSL stage uses a shared **Point Transformer V3 (PTv3)** backbone and evaluates two complementary approaches:
 
 * **Utonia** — a point-cloud foundation model for transferable 3D representations.
 * **Barlow Twins** — a redundancy-reduction objective that aligns representations of paired point-cloud views.
-
-![SSL Pipeline](./ssl_adaptation.png)
 
 ## SSL Setup
 
@@ -48,11 +45,11 @@ Global average pooling aggregates the point features into a cloud-level represen
 ```math
 h_{\mathrm{GT}}^{(b)}
 =
-\operatorname{GAP}\left(H_{\mathrm{GT}}^{(b)}\right),
+\mathrm{GAP}\left(H_{\mathrm{GT}}^{(b)}\right),
 \qquad
 h_{\mathrm{REC}}^{(b)}
 =
-\operatorname{GAP}\left(H_{\mathrm{REC}}^{(b)}\right)
+\mathrm{GAP}\left(H_{\mathrm{REC}}^{(b)}\right)
 ```
 
 A shared projection head then maps these representations into an embedding space:
@@ -74,21 +71,21 @@ z_{\mathrm{GT}}^{(b)},z_{\mathrm{REC}}^{(b)}
 \in\mathbb{R}^{D_z}
 ```
 
-The objective is to make the embeddings of the clean and reconstructed versions of the **same plant** similar while learning representations that remain discriminative across different plants.
+The objective is to make the embeddings of the clean and reconstructed versions of the **same plant** similar while preserving useful geometric information.
 
 ## SSL Approaches
 
 ### Utonia
 
-Utonia is evaluated as a pretrained/self-supervised point-cloud representation learning approach. Its architecture is designed to learn transferable geometric features across heterogeneous 3D point-cloud domains.
+Utonia is evaluated as a self-supervised point-cloud representation learning approach designed to learn transferable geometric features across heterogeneous 3D domains.
 
 See [`utonia/`](./utonia/) for the Utonia experiments and training results.
 
 ### Barlow Twins
 
-Barlow Twins is used to align the representations of paired ground-truth and reconstructed point clouds while reducing redundancy between embedding dimensions.
+Barlow Twins aligns the representations of paired ground-truth and reconstructed point clouds while reducing redundancy between embedding dimensions.
 
-For a batch of paired embeddings, the cross-correlation matrix is computed as
+For a batch of paired embeddings, the cross-correlation matrix is computed as:
 
 ```math
 C_{ij}
@@ -102,7 +99,7 @@ z_{\mathrm{REC},j}^{(b)}
 }
 ```
 
-The Barlow Twins objective is
+The Barlow Twins objective is:
 
 ```math
 \mathcal{L}_{BT}
@@ -112,13 +109,13 @@ The Barlow Twins objective is
 \lambda\sum_{i\neq j}C_{ij}^2
 ```
 
-The diagonal term encourages **invariance between the ground-truth and reconstructed representations**, while the off-diagonal term reduces **redundancy between feature dimensions**.
+The diagonal term encourages **invariance** between the ground-truth and reconstructed representations, while the off-diagonal term reduces **redundancy** between feature dimensions.
 
 See [`barlow twins/`](./barlow%20twins/) for the corresponding experiments.
 
 ## Objective
 
-The overall SSL adaptation can therefore be viewed as learning
+The SSL adaptation aims to learn representations that are robust to reconstruction artifacts:
 
 ```math
 f_{\theta}:
