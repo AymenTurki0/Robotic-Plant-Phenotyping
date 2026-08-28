@@ -1,4 +1,3 @@
-
 # 🌿 Robotic Plant Phenotyping: 3D Reconstruction & Camera Pose Estimation
 
 [![ROS 2](https://img.shields.io/badge/ROS%202-Jazzy%20Jalisco-blue)](https://docs.ros.org/)
@@ -63,7 +62,11 @@ $$
 
 The resulting robotic trajectory provides a reference for evaluating reconstructed camera poses.
 
+### Camera Pose Reference
 
+![Camera Pose Reference](./img/Screenshot%20from%202026-08-28%2016-17-29.png)
+
+---
 
 # 🔄 Complete Reconstruction Pipeline
 
@@ -79,60 +82,49 @@ The captured image sequence is processed by the dataset loaders located in:
 
 ```text
 3d_reconstruction/dataset_loaders/
-````
 
 Available loaders:
 
-* `colmap_dataset_loader.py`
-* `Mast3R_dataset_loader.py`
-* `gaussian_dataset_loader.py`
-* `nerf_dataset_loader.py`
-
-### 3. 3D Reconstruction and Camera Pose Estimation
+colmap_dataset_loader.py
+Mast3R_dataset_loader.py
+gaussian_dataset_loader.py
+nerf_dataset_loader.py
+3. 3D Reconstruction and Camera Pose Estimation
 
 Two main reconstruction approaches are evaluated:
 
-* **COLMAP** — classical Structure-from-Motion and Multi-View Stereo
-* **MASt3R** — learning-based dense matching and 3D reconstruction
+COLMAP — classical Structure-from-Motion and Multi-View Stereo
+MASt3R — learning-based dense matching and 3D reconstruction
 
 Both produce camera poses and 3D geometric information that can be used for subsequent rendering.
 
-### 4. Neural Rendering
+4. Neural Rendering
 
 The reconstructed camera poses and scene information are used by:
 
-* **NeRF**
-* **3D Gaussian Splatting**
-
----
-
-# 🧭 Camera Pose Estimation
+NeRF
+3D Gaussian Splatting
+🧭 Camera Pose Estimation
 
 Estimated camera poses $(\hat{t}_i,\hat{R}_i)$ are compared against reference poses $(t_i,R_i)$.
 
-## Absolute Trajectory Error
+Absolute Trajectory Error
 
 The translational error is evaluated using ATE RMSE:
 
-$$
-\mathrm{ATE}_{\mathrm{RMSE}}
-=
 \sqrt{
 \frac{1}{N}
 \sum_{i=1}^{N}
-\left\|
+\left|
 t_i-\hat{t}_i
-\right\|_2^2
+\right|_2^2
 }
 $$
 
-## Rotation Error
+Rotation Error
 
 The geodesic rotation error is calculated as:
 
-$$
-e_R^{(i)}
-=
 \cos^{-1}
 \left(
 \frac{
@@ -147,55 +139,50 @@ $$
 
 with the mean rotational error:
 
-$$
-\overline{e}_R
-=
 \frac{1}{N}
 \sum_{i=1}^{N}
 e_R^{(i)}
 $$
 
-### Camera Trajectory Comparison
+Camera Trajectory Comparison
 
-![Camera Pose Comparison](./images/camera_pose_comparison.png)
 
----
 
-# 1. COLMAP
 
-![COLMAP Reconstruction](./images/colmap_reconstruction.png)
+1. COLMAP
 
-**COLMAP** is used as the classical Structure-from-Motion baseline.
+
+
+
+COLMAP is used as the classical Structure-from-Motion baseline.
 
 The reconstruction process consists of:
 
-1. SIFT feature extraction
-2. Feature matching between images
-3. Geometric verification
-4. Incremental camera pose estimation
-5. Bundle Adjustment
-6. Sparse reconstruction
-7. Multi-View Stereo for dense reconstruction
+SIFT feature extraction
+Feature matching between images
+Geometric verification
+Incremental camera pose estimation
+Bundle Adjustment
+Sparse reconstruction
+Multi-View Stereo for dense reconstruction
 
 The resulting camera poses and point clouds are subsequently used for neural rendering experiments.
 
----
+2. MASt3R
 
-# 2. MASt3R
 
-![MASt3R Reconstruction](./images/mast3r_reconstruction.png)
 
-**MASt3R (Matching and Stereo 3D Reconstruction)** uses a vision-transformer-based architecture to predict dense 3D point maps and correspondences between image pairs.
+
+MASt3R (Matching and Stereo 3D Reconstruction) uses a vision-transformer-based architecture to predict dense 3D point maps and correspondences between image pairs.
 
 Unlike a conventional SfM pipeline, MASt3R directly predicts dense geometric information from image pairs and subsequently aligns the resulting point maps into a global reconstruction.
 
 This provides an alternative learning-based approach to camera pose estimation and dense 3D reconstruction.
 
----
+3. Neural Radiance Fields (NeRF)
 
-# 3. Neural Radiance Fields (NeRF)
 
-![NeRF Reconstruction](./images/nerf_reconstruction.png)
+
 
 NeRF represents a scene as a continuous volumetric function:
 
@@ -215,18 +202,12 @@ $$
 
 the rendered color is obtained through volume rendering:
 
-$$
-C(r)
-=
 \int_{t_n}^{t_f}
-T(t)\sigma(r(t))c(r(t),d)\,dt
+T(t)\sigma(r(t))c(r(t),d),dt
 $$
 
 where
 
-$$
-T(t)
-=
 \exp
 \left(
 -\int_{t_n}^{t}
@@ -236,26 +217,22 @@ $$
 
 In this project, NeRF is evaluated using camera poses obtained from the reconstruction pipelines.
 
----
+4. 3D Gaussian Splatting
 
-# 4. 3D Gaussian Splatting
 
-![3D Gaussian Splatting](./images/3dgs_reconstruction.png)
 
-**3D Gaussian Splatting (3DGS)** represents the scene using explicit anisotropic 3D Gaussians.
+
+3D Gaussian Splatting (3DGS) represents the scene using explicit anisotropic 3D Gaussians.
 
 Each Gaussian is characterized by:
 
-* 3D position
-* Covariance
-* Opacity
-* Color / spherical harmonics
+3D position
+Covariance
+Opacity
+Color / spherical harmonics
 
 The covariance projection from 3D space to image space is expressed as:
 
-$$
-\Sigma'
-=
 JW\Sigma W^\top J^\top
 $$
 
@@ -263,16 +240,13 @@ where $W$ represents the world-to-camera transformation and $J$ is the Jacobian 
 
 COLMAP sparse points can be used to initialize the Gaussian representation.
 
----
-
-
-# 📚 References
-
-* [COLMAP](https://colmap.github.io/)
-* [MASt3R](https://github.com/naver/mast3r)
-* [NeRF](https://www.matthewtancik.com/nerf)
-* [3D Gaussian Splatting](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/)
-* [ROS 2](https://docs.ros.org/)
-
-```
-```
+📚 References
+COLMAP
+MASt3R
+MASt3R: SfM, Grounding, Image Matching & 3D
+NeRF — Neural Radiance Fields
+3D Gaussian Splatting
+Gaussian Splatting: When Does It Make Sense to Use and Why?
+NeRF
+3D Gaussian Splatting
+ROS 2
