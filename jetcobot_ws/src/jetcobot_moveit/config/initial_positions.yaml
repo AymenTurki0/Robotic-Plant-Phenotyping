@@ -1,0 +1,9 @@
+# Default initial positions for jetcobot's ros2_control fake system
+
+initial_positions:
+  1_Joint: 0
+  2_Joint: 0
+  3_Joint: 0
+  4_Joint: 0
+  5_Joint: 0
+  6_Joint: 0

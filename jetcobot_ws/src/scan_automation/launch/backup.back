@@ -1,0 +1,63 @@
+import os
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch_ros.actions import Node
+from moveit_configs_utils import MoveItConfigsBuilder
+
+def generate_launch_description():
+    scan_pkg = get_package_share_directory('scan_automation')
+    gazebo_pkg = get_package_share_directory('jetcobot_gazebo')
+    moveit_pkg = get_package_share_directory('jetcobot_moveit')
+
+    moveit_config = (
+        MoveItConfigsBuilder("jetcobot", package_name="jetcobot_moveit")
+        .robot_description(file_path="config/jetcobot.urdf.xacro")
+        .robot_description_semantic(file_path="config/jetcobot.srdf")
+        .planning_scene_monitor(publish_robot_description=True, publish_robot_description_semantic=True)
+        .trajectory_execution(file_path="config/moveit_controllers.yaml")
+        .planning_pipelines(pipelines=["ompl"])
+        .joint_limits(file_path="config/joint_limits.yaml")
+        .to_moveit_configs()
+    )
+    moveit_params = moveit_config.to_dict()
+    moveit_params['use_sim_time'] = False
+
+    gazebo_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(gazebo_pkg, 'launch', 'gazebo_plant3.launch.py'))
+    )
+
+    move_group_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(moveit_pkg, 'launch', 'move_group.launch.py'))
+    )
+
+    # Your desired dataset folder
+    dataset_path = "/home/aturki/Desktop/JetCobot_internship_2026/Data_Captured/plant3_back"
+
+    capture_node = Node(
+        package='scan_automation',
+        executable='capture_node',
+        name='dataset_capture_engine',
+        parameters=[{
+            'use_sim_time': False,
+            'dataset_path': dataset_path,
+            'show_preview': False   # set to True if you want the GUI window
+        }],
+        output='screen'
+    )
+
+    sequence_node = Node(
+        package='scan_automation',
+        executable='sequence_node',
+        name='dataset_sequence_engine',
+        parameters=[moveit_params],
+        output='screen'
+    )
+
+    return LaunchDescription([
+        gazebo_launch,
+        move_group_launch,
+        capture_node,
+        sequence_node
+    ])

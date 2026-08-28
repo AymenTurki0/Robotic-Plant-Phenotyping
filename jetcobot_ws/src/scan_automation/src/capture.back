@@ -1,0 +1,186 @@
+#include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/image.hpp>
+#include <sensor_msgs/msg/joint_state.hpp>
+#include <std_msgs/msg/int32.hpp>
+#include <cv_bridge/cv_bridge.hpp>
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui.hpp>
+#include <fstream>
+#include <filesystem>
+#include <mutex>
+#include <thread>
+#include <atomic>
+
+class CaptureNode : public rclcpp::Node
+{
+public:
+  CaptureNode() : Node("capture_node"), running_(false), start_scan_(false), captured_count_(0)
+  {
+    // Get dataset path
+    this->declare_parameter<std::string>("dataset_path", std::string(getenv("HOME")) + "/scan_dataset");
+    this->get_parameter("dataset_path", output_dir_);
+    std::filesystem::create_directories(output_dir_);
+    RCLCPP_INFO(this->get_logger(), "Dataset directory: %s", output_dir_.c_str());
+
+    // Subscriptions
+    img_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
+      "/camera/image_raw", 10, std::bind(&CaptureNode::image_cb, this, std::placeholders::_1));
+    joint_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
+      "/joint_states", 10, std::bind(&CaptureNode::joint_cb, this, std::placeholders::_1));
+    
+    // Publisher to send start signal to sequence_node
+    start_pub_ = this->create_publisher<std_msgs::msg::Int32>("/capture_start", 10);
+    
+    // Subscriber to receive capture signals from sequence_node
+    capture_sub_ = this->create_subscription<std_msgs::msg::Int32>(
+      "/capture_signal", 10, std::bind(&CaptureNode::capture_cb, this, std::placeholders::_1));
+
+    // Start the GUI thread
+    gui_thread_ = std::thread(&CaptureNode::gui_loop, this);
+  }
+
+  ~CaptureNode() {
+    running_ = false;
+    if (gui_thread_.joinable()) gui_thread_.join();
+    cv::destroyAllWindows();
+  }
+
+private:
+  void image_cb(const sensor_msgs::msg::Image::SharedPtr msg) {
+    std::lock_guard<std::mutex> lock(data_mutex_);
+    try {
+      latest_frame_ = cv_bridge::toCvShare(msg, "bgr8")->image.clone();
+    } catch (cv_bridge::Exception& e) {
+      RCLCPP_ERROR(this->get_logger(), "cv_bridge exception: %s", e.what());
+    }
+  }
+
+  void joint_cb(const sensor_msgs::msg::JointState::SharedPtr msg) {
+    std::lock_guard<std::mutex> lock(data_mutex_);
+    latest_joints_ = msg->position;
+    joint_names_ = msg->name;
+  }
+
+  void capture_cb(const std_msgs::msg::Int32::SharedPtr msg) {
+    int index = msg->data;
+    
+    if (index == -1) {
+      RCLCPP_INFO(this->get_logger(), "Scan complete! Shutting down...");
+      rclcpp::shutdown();
+      return;
+    }
+
+    std::lock_guard<std::mutex> lock(data_mutex_);
+    
+    if (latest_frame_.empty()) {
+      RCLCPP_WARN(this->get_logger(), "No image available for frame %d", index);
+      return;
+    }
+
+    // Save image
+    std::string img_path = output_dir_ + "/frame_" + std::to_string(index) + ".png";
+    cv::imwrite(img_path, latest_frame_);
+
+    // Save YAML
+    std::string yaml_path = output_dir_ + "/frame_" + std::to_string(index) + ".yaml";
+    std::ofstream yaml_file(yaml_path);
+    yaml_file << "frame_index: " << index << "\n";
+    yaml_file << "joints:\n";
+    for (size_t i = 0; i < latest_joints_.size(); ++i) {
+      yaml_file << "  - name: " << joint_names_[i] << "\n";
+      yaml_file << "    position: " << latest_joints_[i] << "\n";
+    }
+    yaml_file.close();
+
+    captured_count_++;
+    RCLCPP_INFO(this->get_logger(), "[SAVED] Frame #%d (total: %d)", index, captured_count_.load());
+  }
+
+  void gui_loop() {
+    running_ = true;
+    cv::namedWindow("Robot Camera & Control", cv::WINDOW_NORMAL);
+    cv::resizeWindow("Robot Camera & Control", 800, 600);
+    
+    // Create a button using OpenCV's Qt backend
+    cv::createButton(
+      "START SCAN", 
+      button_callback, 
+      this, 
+      cv::QT_PUSH_BUTTON,
+      0
+    );
+
+    RCLCPP_INFO(this->get_logger(), "GUI ready - Click 'START SCAN' button when ready");
+
+    while (running_ && rclcpp::ok()) {
+      cv::Mat display_frame;
+      {
+        std::lock_guard<std::mutex> lock(data_mutex_);
+        if (!latest_frame_.empty()) {
+          display_frame = latest_frame_.clone();
+        }
+      }
+
+      if (!display_frame.empty()) {
+        // Add text overlay
+        std::string status = start_scan_ ? "STARTING SCAN..." : "READY - Click START";
+        cv::putText(display_frame, status, cv::Point(10, 30), 
+                    cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(0, 255, 0), 2);
+        
+        if (captured_count_ > 0) {
+          cv::putText(display_frame, "Captured: " + std::to_string(captured_count_), 
+                      cv::Point(10, 60), cv::FONT_HERSHEY_SIMPLEX, 0.6, cv::Scalar(255, 255, 0), 2);
+        }
+
+        cv::imshow("Robot Camera & Control", display_frame);
+      }
+
+      int key = cv::waitKey(30);
+      if (key == 27) { // ESC to quit
+        RCLCPP_INFO(this->get_logger(), "ESC pressed - shutting down");
+        rclcpp::shutdown();
+        break;
+      }
+
+      // Send start signal to sequence_node when button is pressed
+      if (start_scan_.exchange(false)) {
+        std_msgs::msg::Int32 start_msg;
+        start_msg.data = 0;
+        start_pub_->publish(start_msg);
+        RCLCPP_INFO(this->get_logger(), "Start signal sent to sequence_node!");
+      }
+    }
+  }
+
+  // Static callback for the button
+  static void button_callback(int state, void* userdata) {
+    CaptureNode* node = static_cast<CaptureNode*>(userdata);
+    if (node) {
+      node->start_scan_ = true;
+      RCLCPP_INFO(node->get_logger(), "START button clicked!");
+    }
+  }
+
+  rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr img_sub_;
+  rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_sub_;
+  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr capture_sub_;
+  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr start_pub_;
+  
+  std::mutex data_mutex_;
+  cv::Mat latest_frame_;
+  std::vector<double> latest_joints_;
+  std::vector<std::string> joint_names_;
+  std::string output_dir_;
+  std::atomic<int> captured_count_;
+  
+  std::atomic<bool> running_;
+  std::atomic<bool> start_scan_;
+  std::thread gui_thread_;
+};
+
+int main(int argc, char **argv) {
+  rclcpp::init(argc, argv);
+  auto node = std::make_shared<CaptureNode>();
+  rclcpp::spin(node);
+  return 0;
+}

@@ -1,0 +1,37 @@
+    std::vector<std::vector<double>> waypoints = {
+      // === TIER 1: BASE LEVEL (0% - 20% Height) ===
+      { 0.00, -1.45,  0.15,  1.30,  0.00,  0.00}, // 1. Low Center Base
+      {-0.15, -1.45,  0.15,  1.30,  0.00,  0.00}, // 2. Low Left
+      { 0.15, -1.45,  0.15,  1.30,  0.00,  0.00}, // 3. Low Right
+
+      // === TIER 2: LOWER-MID LEVEL (20% - 40% Height) ===
+      { 0.15, -1.20,  0.30,  0.90,  0.00,  0.00}, // 4. Mid-Low Right
+      { 0.00, -1.20,  0.30,  0.90,  0.00,  0.00}, // 5. Mid-Low Center
+      {-0.15, -1.20,  0.30,  0.90,  0.00,  0.00}, // 6. Mid-Low Left
+
+      // === TIER 3: MIDDLE LEVEL (40% - 60% Height) ===
+      {-0.15, -0.95,  0.45,  0.50,  0.00,  0.00}, // 7. Mid Left
+      { 0.00, -0.95,  0.45,  0.50,  0.00,  0.00}, // 8. Mid Center
+      { 0.15, -0.95,  0.45,  0.50,  0.00,  0.00}, // 9. Mid Right
+
+      // === TIER 4: UPPER-MID LEVEL (60% - 75% Height) ===
+      { 0.15, -0.70,  0.55,  0.15,  0.00,  0.00}, // 10. Mid-High Right
+      { 0.00, -0.70,  0.55,  0.15,  0.00,  0.00}, // 11. Mid-High Center
+      {-0.15, -0.70,  0.55,  0.15,  0.00,  0.00}, // 12. Mid-High Left
+
+      // === TIER 5: HIGH CANOPY LEVEL (75% - 85% Height) ===
+      {-0.15, -0.45,  0.65, -0.20,  0.00,  0.00}, // 13. High Canopy Left (Tilting slightly up)
+      { 0.00, -0.45,  0.65, -0.20,  0.00,  0.00}, // 14. High Canopy Center
+      { 0.15, -0.45,  0.65, -0.20,  0.00,  0.00}, // 15. High Canopy Right
+
+      // === TIER 6: UPPER CANOPY EXTRA REACH (85% - 95% Height) ===
+      { 0.15, -0.20,  0.75, -0.40,  0.00,  0.00}, // 16. Upper Reach Right
+      { 0.00, -0.20,  0.75, -0.40,  0.00,  0.00}, // 17. Upper Reach Center
+      {-0.15, -0.20,  0.75, -0.40,  0.00,  0.00}, // 18. Upper Reach Left
+
+   
+
+      // === TIER 8: HIGH OVERHEAD CROWN DOWN-LOOK ===
+      // Pushes the arm forward at peak elevation and pitches the camera down to map the crown from above
+      { 0.00,  0.25,  1.10, -0.75,  0.00,  0.00}  // 22. Final Overhead Crown Top-Down
+    };

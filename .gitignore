@@ -1,0 +1,25 @@
+# ROS 2 / Colcon generated directories
+jetcobot_ws/build/
+jetcobot_ws/install/
+jetcobot_ws/log/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# ROS recordings / databases
+*.bag
+*.db3
+
+# Large datasets / generated point clouds
+*.ply
+*.pcd

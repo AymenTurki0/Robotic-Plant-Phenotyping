@@ -1,0 +1,661 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="lab_world_plant3">
+
+    <!-- Core simulation plugins -->
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"></plugin>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"></plugin>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"></plugin>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"></plugin>
+
+    <scene>
+      <ambient>0.36 0.36 0.38 1</ambient>
+      <background>0.4 0.4 0.44 1</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <gravity>0 0 -9.8</gravity>
+
+    <!-- ============ GUI ============ -->
+    <gui fullscreen="false">
+      <plugin filename="MinimalScene" name="3D View">
+        <gz-gui>
+          <title>3D View</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </gz-gui>
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.36 0.36 0.38</ambient_light>
+        <background_color>0.4 0.4 0.44</background_color>
+        <camera_pose>-1.0 -1.4 1.4 0 0.2 0.72</camera_pose>
+      </plugin>
+      <plugin filename="GzSceneManager" name="Scene Manager">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="InteractiveViewControl" name="Interactive view control">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="CameraTracking" name="Camera Tracking">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="MarkerManager" name="Marker manager">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="SelectEntities" name="Select Entities">
+        <gz-gui>
+          <anchors target="Select entities">
+            <line own="right" target="right"/>
+            <line own="top" target="top"/>
+          </anchors>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="Spawn" name="Spawn Entities">
+        <gz-gui>
+          <anchors target="Select entities">
+            <line own="right" target="right"/>
+            <line own="top" target="top"/>
+          </anchors>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="VisualizationCapabilities" name="Visualization Capabilities">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="WorldControl" name="World control">
+        <gz-gui>
+          <title>World control</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">72</property>
+          <property type="double" key="width">121</property>
+          <property type="double" key="z">1</property>
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="left" target="left"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </gz-gui>
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>false</start_paused>
+      </plugin>
+      <plugin filename="WorldStats" name="World stats">
+        <gz-gui>
+          <title>World stats</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">110</property>
+          <property type="double" key="width">290</property>
+          <property type="double" key="z">1</property>
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="right" target="right"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </gz-gui>
+        <sim_time>true</sim_time>
+        <real_time>true</real_time>
+        <real_time_factor>true</real_time_factor>
+        <iterations>true</iterations>
+      </plugin>
+      <plugin filename="EntityTree" name="Entity tree"></plugin>
+    </gui>
+
+    <!-- ============ FLOOR ============ -->
+    <model name="lab_floor">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry><plane><normal>0 0 1</normal><size>6 6</size></plane></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><plane><normal>0 0 1</normal><size>6 6</size></plane></geometry>
+          <material>
+            <ambient>0.32 0.34 0.36 1</ambient>
+            <diffuse>0.38 0.4 0.42 1</diffuse>
+            <specular>0.05 0.05 0.05 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="floor_mat">
+      <static>true</static>
+      <pose>0.5 0 0.001 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.6 1.4 0.002</size></box></geometry>
+          <material>
+            <ambient>0.15 0.15 0.16 1</ambient>
+            <diffuse>0.18 0.18 0.19 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ============ WALLS ============ -->
+    <model name="wall_north_lower">
+      <static>true</static>
+      <pose>0 3 0.45 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>6 0.1 0.9</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>6 0.1 0.9</size></box></geometry>
+          <material><ambient>0.22 0.25 0.27 1</ambient><diffuse>0.28 0.31 0.33 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_north_upper">
+      <static>true</static>
+      <pose>0 3 1.7 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>6 0.1 1.6</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>6 0.1 1.6</size></box></geometry>
+          <material><ambient>0.5 0.48 0.44 1</ambient><diffuse>0.58 0.56 0.52 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_south_lower">
+      <static>true</static>
+      <pose>0 -3 0.45 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>6 0.1 0.9</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>6 0.1 0.9</size></box></geometry>
+          <material><ambient>0.22 0.25 0.27 1</ambient><diffuse>0.28 0.31 0.33 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_south_upper">
+      <static>true</static>
+      <pose>0 -3 1.7 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>6 0.1 1.6</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>6 0.1 1.6</size></box></geometry>
+          <material><ambient>0.5 0.48 0.44 1</ambient><diffuse>0.58 0.56 0.52 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_east_lower">
+      <static>true</static>
+      <pose>3 0 0.45 0 0 1.5708</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>6 0.1 0.9</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>6 0.1 0.9</size></box></geometry>
+          <material><ambient>0.2 0.23 0.25 1</ambient><diffuse>0.26 0.29 0.31 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_east_upper">
+      <static>true</static>
+      <pose>3 0 1.7 0 0 1.5708</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>6 0.1 1.6</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>6 0.1 1.6</size></box></geometry>
+          <material><ambient>0.47 0.45 0.42 1</ambient><diffuse>0.55 0.53 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="wall_west_lower">
+      <static>true</static>
+      <pose>-3 0 0.45 0 0 1.5708</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>6 0.1 0.9</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>6 0.1 0.9</size></box></geometry>
+          <material><ambient>0.2 0.23 0.25 1</ambient><diffuse>0.26 0.29 0.31 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_west_upper">
+      <static>true</static>
+      <pose>-3 0 1.7 0 0 1.5708</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>6 0.1 1.6</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>6 0.1 1.6</size></box></geometry>
+          <material><ambient>0.47 0.45 0.42 1</ambient><diffuse>0.55 0.53 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ============ CEILING LIGHT FIXTURE PANELS ============ -->
+    <model name="light_fixture_1">
+      <static>true</static>
+      <pose>0.3 -0.6 2.47 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.8 0.25 0.04</size></box></geometry>
+          <material>
+            <ambient>1 1 0.95 1</ambient>
+            <diffuse>1 1 0.95 1</diffuse>
+            <emissive>0.35 0.35 0.32 1</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="light_fixture_2">
+      <static>true</static>
+      <pose>0.8 0.6 2.47 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.8 0.25 0.04</size></box></geometry>
+          <material>
+            <ambient>1 1 0.95 1</ambient>
+            <diffuse>1 1 0.95 1</diffuse>
+            <emissive>0.35 0.35 0.32 1</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ============ SCAN LIGHTING RIG ============ -->
+    <light name="scan_light_N" type="point">
+      <pose>0.54 0.45 2.1 0 0 0</pose>
+      <diffuse>0.6 0.6 0.56 1</diffuse>
+      <specular>0.02 0.02 0.02 1</specular>
+      <attenuation>
+        <range>14</range>
+        <constant>0.4</constant>
+        <linear>0.05</linear>
+        <quadratic>0.01</quadratic>
+      </attenuation>
+      <cast_shadows>true</cast_shadows>
+    </light>
+
+    <light name="scan_light_S" type="point">
+      <pose>0.54 -0.45 2.1 0 0 0</pose>
+      <diffuse>0.6 0.6 0.56 1</diffuse>
+      <specular>0.02 0.02 0.02 1</specular>
+      <attenuation>
+        <range>14</range>
+        <constant>0.4</constant>
+        <linear>0.05</linear>
+        <quadratic>0.01</quadratic>
+      </attenuation>
+      <cast_shadows>true</cast_shadows>
+    </light>
+
+    <light name="scan_light_E" type="point">
+      <pose>0.84 0 2.1 0 0 0</pose>
+      <diffuse>0.55 0.55 0.52 1</diffuse>
+      <specular>0.02 0.02 0.02 1</specular>
+      <attenuation>
+        <range>14</range>
+        <constant>0.4</constant>
+        <linear>0.05</linear>
+        <quadratic>0.01</quadratic>
+      </attenuation>
+      <cast_shadows>true</cast_shadows>
+    </light>
+
+    <light name="scan_light_W" type="point">
+      <pose>0.24 0 2.1 0 0 0</pose>
+      <diffuse>0.55 0.55 0.52 1</diffuse>
+      <specular>0.02 0.02 0.02 1</specular>
+      <attenuation>
+        <range>14</range>
+        <constant>0.4</constant>
+        <linear>0.05</linear>
+        <quadratic>0.01</quadratic>
+      </attenuation>
+      <cast_shadows>true</cast_shadows>
+    </light>
+
+    <light name="fill_light_a" type="directional">
+      <pose>0 0 5 0 0 0</pose>
+      <diffuse>0.18 0.18 0.18 1</diffuse>
+      <specular>0.0 0.0 0.0 1</specular>
+      <direction>-0.3 0.3 -0.9</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <light name="fill_light_b" type="directional">
+      <pose>0 0 5 0 0 0</pose>
+      <diffuse>0.18 0.18 0.18 1</diffuse>
+      <specular>0.0 0.0 0.0 1</specular>
+      <direction>0.3 -0.3 -0.9</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <!-- ============ LAB TABLE ============ -->
+    <model name="lab_table">
+      <static>true</static>
+      <pose>0.5 0 0 0 0 0</pose>
+      <link name="tabletop">
+
+        <collision name="top_collision">
+          <pose>0 0 0.75 0 0 0</pose>
+          <geometry><box><size>1.0 0.8 0.04</size></box></geometry>
+        </collision>
+        <visual name="top_visual">
+          <pose>0 0 0.75 0 0 0</pose>
+          <geometry><box><size>1.0 0.8 0.04</size></box></geometry>
+          <material>
+            <ambient>0.16 0.16 0.17 1</ambient>
+            <diffuse>0.22 0.22 0.23 1</diffuse>
+            <specular>0.06 0.06 0.06 1</specular>
+          </material>
+        </visual>
+
+        <collision name="leg_fl_collision">
+          <pose>0.45 0.35 0.365 0 0 0</pose>
+          <geometry><cylinder><radius>0.03</radius><length>0.73</length></cylinder></geometry>
+        </collision>
+        <visual name="leg_fl_visual">
+          <pose>0.45 0.35 0.365 0 0 0</pose>
+          <geometry><cylinder><radius>0.03</radius><length>0.73</length></cylinder></geometry>
+          <material><ambient>0.5 0.5 0.53 1</ambient><diffuse>0.6 0.6 0.63 1</diffuse><specular>0.08 0.08 0.08 1</specular></material>
+        </visual>
+
+        <collision name="leg_fr_collision">
+          <pose>0.45 -0.35 0.365 0 0 0</pose>
+          <geometry><cylinder><radius>0.03</radius><length>0.73</length></cylinder></geometry>
+        </collision>
+        <visual name="leg_fr_visual">
+          <pose>0.45 -0.35 0.365 0 0 0</pose>
+          <geometry><cylinder><radius>0.03</radius><length>0.73</length></cylinder></geometry>
+          <material><ambient>0.5 0.5 0.53 1</ambient><diffuse>0.6 0.6 0.63 1</diffuse><specular>0.08 0.08 0.08 1</specular></material>
+        </visual>
+
+        <collision name="leg_bl_collision">
+          <pose>-0.45 0.35 0.365 0 0 0</pose>
+          <geometry><cylinder><radius>0.03</radius><length>0.73</length></cylinder></geometry>
+        </collision>
+        <visual name="leg_bl_visual">
+          <pose>-0.45 0.35 0.365 0 0 0</pose>
+          <geometry><cylinder><radius>0.03</radius><length>0.73</length></cylinder></geometry>
+          <material><ambient>0.5 0.5 0.53 1</ambient><diffuse>0.6 0.6 0.63 1</diffuse><specular>0.08 0.08 0.08 1</specular></material>
+        </visual>
+
+        <collision name="leg_br_collision">
+          <pose>-0.45 -0.35 0.365 0 0 0</pose>
+          <geometry><cylinder><radius>0.03</radius><length>0.73</length></cylinder></geometry>
+        </collision>
+        <visual name="leg_br_visual">
+          <pose>-0.45 -0.35 0.365 0 0 0</pose>
+          <geometry><cylinder><radius>0.03</radius><length>0.73</length></cylinder></geometry>
+          <material><ambient>0.5 0.5 0.53 1</ambient><diffuse>0.6 0.6 0.63 1</diffuse><specular>0.08 0.08 0.08 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ============ DETECTION ZONE MARKER ============ -->
+    <model name="detection_zone_border">
+      <static>true</static>
+      <pose>0.54 0 0.7705 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.42 0.42 0.001</size></box></geometry>
+          <material>
+            <ambient>0.9 0.75 0.05 1</ambient>
+            <diffuse>0.95 0.8 0.1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="detection_zone_fill">
+      <static>true</static>
+      <pose>0.54 0 0.7715 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.38 0.38 0.001</size></box></geometry>
+          <material>
+            <ambient>0.08 0.08 0.09 1</ambient>
+            <diffuse>0.1 0.1 0.11 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ============ SCAN TURNTABLE ============ -->
+    <model name="turntable">
+      <pose>0.54 0 0.77 0 0 0</pose>
+      <static>false</static>
+      <self_collide>false</self_collide>
+
+      <link name="base_link">
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <mass>2.0</mass>
+          <inertia><ixx>0.01</ixx><iyy>0.01</iyy><izz>0.015</izz><ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+        </inertial>
+
+        <collision name="base_collision">
+          <pose>0 0 0.02 0 0 0</pose>
+          <geometry><cylinder><radius>0.16</radius><length>0.04</length></cylinder></geometry>
+        </collision>
+
+        <visual name="base_foot_visual">
+          <pose>0 0 0.01 0 0 0</pose>
+          <geometry><cylinder><radius>0.16</radius><length>0.02</length></cylinder></geometry>
+          <material>
+            <ambient>0.04 0.04 0.045 1</ambient>
+            <diffuse>0.07 0.07 0.08 1</diffuse>
+            <specular>0.05 0.05 0.05 1</specular>
+          </material>
+        </visual>
+
+        <visual name="base_trim_visual">
+          <pose>0 0 0.002 0 0 0</pose>
+          <geometry><cylinder><radius>0.163</radius><length>0.004</length></cylinder></geometry>
+          <material>
+            <ambient>0.55 0.55 0.58 1</ambient>
+            <diffuse>0.65 0.65 0.68 1</diffuse>
+            <specular>0.15 0.15 0.15 1</specular>
+          </material>
+        </visual>
+
+        <visual name="motor_pod_visual">
+          <pose>0 0 0.03 0 0 0</pose>
+          <geometry><cylinder><radius>0.10</radius><length>0.02</length></cylinder></geometry>
+          <material>
+            <ambient>0.09 0.09 0.1 1</ambient>
+            <diffuse>0.13 0.13 0.14 1</diffuse>
+            <specular>0.06 0.06 0.06 1</specular>
+          </material>
+        </visual>
+
+        <visual name="status_led_visual">
+          <pose>0.085 0.085 0.041 0 0 0</pose>
+          <geometry><sphere><radius>0.006</radius></sphere></geometry>
+          <material>
+            <ambient>0.1 0.9 0.2 1</ambient>
+            <diffuse>0.1 0.9 0.2 1</diffuse>
+            <emissive>0.1 0.7 0.15 1</emissive>
+          </material>
+        </visual>
+      </link>
+
+      <joint name="base_fixed_joint" type="fixed">
+        <parent>world</parent>
+        <child>base_link</child>
+      </joint>
+
+      <link name="disc_link">
+        <pose>0 0 0.045 0 0 0</pose>
+        <inertial>
+          <mass>0.4</mass>
+          <inertia><ixx>0.002</ixx><iyy>0.002</iyy><izz>0.003</izz><ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+        </inertial>
+
+        <collision name="disc_collision">
+          <pose>0 0 0.005 0 0 0</pose>
+          <geometry><cylinder><radius>0.14</radius><length>0.01</length></cylinder></geometry>
+        </collision>
+
+        <visual name="disc_top_visual">
+          <pose>0 0 0.005 0 0 0</pose>
+          <geometry><cylinder><radius>0.14</radius><length>0.01</length></cylinder></geometry>
+          <material>
+            <ambient>0.42 0.42 0.44 1</ambient>
+            <diffuse>0.5 0.5 0.52 1</diffuse>
+            <specular>0.04 0.04 0.04 1</specular>
+          </material>
+        </visual>
+
+        <visual name="disc_edge_trim_visual">
+          <pose>0 0 0.0015 0 0 0</pose>
+          <geometry><cylinder><radius>0.142</radius><length>0.003</length></cylinder></geometry>
+          <material>
+            <ambient>0.08 0.08 0.09 1</ambient>
+            <diffuse>0.11 0.11 0.12 1</diffuse>
+            <specular>0.03 0.03 0.03 1</specular>
+          </material>
+        </visual>
+
+        <visual name="disc_hub_visual">
+          <pose>0 0 0.013 0 0 0</pose>
+          <geometry><cylinder><radius>0.018</radius><length>0.006</length></cylinder></geometry>
+          <material>
+            <ambient>0.1 0.1 0.11 1</ambient>
+            <diffuse>0.14 0.14 0.15 1</diffuse>
+          </material>
+        </visual>
+
+        <visual name="tick_mark_0">
+          <pose>0.125 0 0.0105 0 0 0</pose>
+          <geometry><box><size>0.02 0.008 0.003</size></box></geometry>
+          <material><ambient>0.95 0.4 0.05 1</ambient><diffuse>1.0 0.45 0.08 1</diffuse></material>
+        </visual>
+        <visual name="tick_mark_45">
+          <pose>0.0884 0.0884 0.0105 0 0 0.7854</pose>
+          <geometry><box><size>0.02 0.008 0.003</size></box></geometry>
+          <material><ambient>0.85 0.85 0.87 1</ambient><diffuse>0.92 0.92 0.94 1</diffuse></material>
+        </visual>
+        <visual name="tick_mark_90">
+          <pose>0 0.125 0.0105 0 0 1.5708</pose>
+          <geometry><box><size>0.02 0.008 0.003</size></box></geometry>
+          <material><ambient>0.85 0.85 0.87 1</ambient><diffuse>0.92 0.92 0.94 1</diffuse></material>
+        </visual>
+        <visual name="tick_mark_135">
+          <pose>-0.0884 0.0884 0.0105 0 0 2.3562</pose>
+          <geometry><box><size>0.02 0.008 0.003</size></box></geometry>
+          <material><ambient>0.85 0.85 0.87 1</ambient><diffuse>0.92 0.92 0.94 1</diffuse></material>
+        </visual>
+        <visual name="tick_mark_180">
+          <pose>-0.125 0 0.0105 0 0 3.1416</pose>
+          <geometry><box><size>0.02 0.008 0.003</size></box></geometry>
+          <material><ambient>0.85 0.85 0.87 1</ambient><diffuse>0.92 0.92 0.94 1</diffuse></material>
+        </visual>
+        <visual name="tick_mark_225">
+          <pose>-0.0884 -0.0884 0.0105 0 0 3.9270</pose>
+          <geometry><box><size>0.02 0.008 0.003</size></box></geometry>
+          <material><ambient>0.85 0.85 0.87 1</ambient><diffuse>0.92 0.92 0.94 1</diffuse></material>
+        </visual>
+        <visual name="tick_mark_270">
+          <pose>0 -0.125 0.0105 0 0 4.7124</pose>
+          <geometry><box><size>0.02 0.008 0.003</size></box></geometry>
+          <material><ambient>0.85 0.85 0.87 1</ambient><diffuse>0.92 0.92 0.94 1</diffuse></material>
+        </visual>
+        <visual name="tick_mark_315">
+          <pose>0.0884 -0.0884 0.0105 0 0 5.4978</pose>
+          <geometry><box><size>0.02 0.008 0.003</size></box></geometry>
+          <material><ambient>0.85 0.85 0.87 1</ambient><diffuse>0.92 0.92 0.94 1</diffuse></material>
+        </visual>
+
+        <visual name="home_pointer_visual">
+          <pose>0.155 0 0.041 0 0 0</pose>
+          <geometry><box><size>0.012 0.006 0.006</size></box></geometry>
+          <material><ambient>0.95 0.4 0.05 1</ambient><diffuse>1.0 0.45 0.08 1</diffuse></material>
+        </visual>
+      </link>
+
+      <joint name="turntable_joint" type="revolute">
+        <parent>base_link</parent>
+        <child>disc_link</child>
+        <pose>0 0 0 0 0 0</pose>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1e16</lower>
+            <upper>1e16</upper>
+            <effort>100</effort>
+            <velocity>1.0</velocity> <!-- INCREASED: Allows faster full rotation -->
+          </limit>
+          <dynamics>
+            <damping>0.1</damping>   <!-- REDUCED: Prevents resistance stall -->
+            <friction>0.05</friction> <!-- REDUCED: Smooth rotation -->
+          </dynamics>
+        </axis>
+      </joint>
+
+      <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>turntable_joint</joint_name>
+        <topic>/turntable/cmd_pos</topic>
+        <p_gain>200</p_gain>
+        <i_gain>0.1</i_gain>
+        <d_gain>5</d_gain>
+        <i_max>5</i_max>
+        <i_min>-5</i_min>
+        <cmd_max>100</cmd_max>
+        <cmd_min>-100</cmd_min>
+      </plugin>
+
+      <!-- ============ PLANT (nested, rigidly mounted on the disc) ============ -->
+      <include>
+        <name>plant3</name>
+        <uri>model://plant3</uri>
+        <pose>0 0 0.055 0 0 0</pose>
+        <scale>0.5 0.5 0.35</scale>
+        <static>false</static>
+      </include>
+
+      <joint name="plant_to_disc_joint" type="fixed">
+        <parent>disc_link</parent>
+        <child>plant3::link</child>
+      </joint>
+
+    </model>
+
+  </world>
+</sdf>

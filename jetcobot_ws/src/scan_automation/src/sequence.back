@@ -1,0 +1,154 @@
+#include <rclcpp/rclcpp.hpp>
+#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <std_msgs/msg/int32.hpp>
+#include <sensor_msgs/msg/joint_state.hpp>
+#include <thread>
+#include <chrono>
+#include <vector>
+#include <atomic>
+
+class SequenceNode : public rclcpp::Node
+{
+public:
+  SequenceNode() : Node("sequence_node"), got_joint_state_(false), scan_started_(false)
+  {
+    signal_pub_ = this->create_publisher<std_msgs::msg::Int32>("/capture_signal", 10);
+    start_sub_ = this->create_subscription<std_msgs::msg::Int32>(
+      "/capture_start", 10, std::bind(&SequenceNode::start_cb, this, std::placeholders::_1));
+    joint_state_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
+      "/joint_states", rclcpp::SensorDataQoS(),
+      std::bind(&SequenceNode::joint_state_cb, this, std::placeholders::_1));
+  }
+
+  bool initialize()
+  {
+    RCLCPP_INFO(this->get_logger(), "Waiting for joint states... (timeout: 60s)");
+
+    auto start = std::chrono::steady_clock::now();
+    while ((std::chrono::steady_clock::now() - start) < std::chrono::duration<double>(60.0)) {
+      rclcpp::spin_some(this->get_node_base_interface());
+      if (got_joint_state_) {
+        RCLCPP_INFO(this->get_logger(), "Joint states received!");
+        break;
+      }
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    if (!got_joint_state_) {
+      RCLCPP_ERROR(this->get_logger(), "No /joint_states received.");
+      return false;
+    }
+
+    move_group_interface_ = std::make_shared<moveit::planning_interface::MoveGroupInterface>(shared_from_this(), "arm_group");
+    move_group_interface_->setNumPlanningAttempts(10);
+    move_group_interface_->setPlanningTime(5.0);
+
+    RCLCPP_INFO(this->get_logger(), "========================================");
+    RCLCPP_INFO(this->get_logger(), "  Robot is ready!");
+    RCLCPP_INFO(this->get_logger(), "  Click 'START SCAN' in the GUI window.");
+    RCLCPP_INFO(this->get_logger(), "========================================");
+
+    scan_thread_ = std::thread(&SequenceNode::execute_scan_loop, this);
+    return true;
+  }
+
+  ~SequenceNode() {
+    if (scan_thread_.joinable()) scan_thread_.join();
+  }
+
+private:
+  void joint_state_cb(const sensor_msgs::msg::JointState::SharedPtr /*msg*/) {
+    got_joint_state_ = true;
+  }
+
+  void start_cb(const std_msgs::msg::Int32::SharedPtr /*msg*/) {
+    scan_started_ = true;
+    RCLCPP_INFO(this->get_logger(), "Scan triggered by GUI button!");
+  }
+
+  void execute_scan_loop()
+  {
+    while (!scan_started_ && rclcpp::ok()) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+    if (!rclcpp::ok()) return;
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    RCLCPP_INFO(this->get_logger(), "Starting scan sequence (capturing during motion)...");
+
+std::vector<std::vector<double>> waypoints = {
+  {-0.9207, -0.6051, -1.2282, 0.4989, 1.4799, -1.3334},  // az=36 el=5
+  {-0.9065, -0.6095, -0.6155, -0.1925, 1.3426, -1.4132},  // az=36 el=13
+  {-0.8189, -0.1949, -1.0129, 0.2388, 1.1267, -0.9204},  // az=28 el=21
+  {-0.5661, -0.0106, -0.7891, 0.0704, 0.7700, -0.5561},  // az=20 el=29
+  {-0.1431, 0.4001, -1.2037, 0.2779, 0.3086, -0.1734},  // az=12 el=29
+  {-2.5765, 0.0096, 0.7909, -0.0724, 2.3724, 0.5555},  // az=-20 el=29
+};
+
+    int global_frame_index = 0;
+    const int CAPTURE_INTERVAL_MS = 300;   // capture every 300 ms during motion
+
+    for (const auto& joint_targets : waypoints) {
+      if (!rclcpp::ok()) break;
+
+      RCLCPP_INFO(this->get_logger(), "Moving to next position...");
+      move_group_interface_->setJointValueTarget(joint_targets);
+
+      moveit::planning_interface::MoveGroupInterface::Plan plan;
+      if (move_group_interface_->plan(plan) != moveit::core::MoveItErrorCode::SUCCESS) {
+        RCLCPP_ERROR(this->get_logger(), "Planning failed.");
+        continue;
+      }
+
+      // ---- Capture thread while executing motion ----
+      std::atomic<bool> motion_running(true);
+      // FIX: Capture CAPTURE_INTERVAL_MS by value
+      std::thread capture_thread([this, &motion_running, &global_frame_index, CAPTURE_INTERVAL_MS]() {
+        while (motion_running.load() && rclcpp::ok()) {
+          std_msgs::msg::Int32 signal;
+          signal.data = global_frame_index++;
+          signal_pub_->publish(signal);
+          std::this_thread::sleep_for(std::chrono::milliseconds(CAPTURE_INTERVAL_MS));
+        }
+      });
+
+      // Execute the motion (blocking)
+      bool exec_success = (move_group_interface_->execute(plan) == moveit::core::MoveItErrorCode::SUCCESS);
+      motion_running = false;   // stop the capture thread
+      capture_thread.join();
+
+      if (exec_success) {
+        RCLCPP_INFO(this->get_logger(), "Motion finished.");
+      } else {
+        RCLCPP_ERROR(this->get_logger(), "Execution failed for this position.");
+      }
+    }
+
+    RCLCPP_INFO(this->get_logger(), "Scan complete!");
+    std_msgs::msg::Int32 termination_msg;
+    termination_msg.data = -1;
+    signal_pub_->publish(termination_msg);
+  }
+
+  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr signal_pub_;
+  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr start_sub_;
+  rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_state_sub_;
+  std::atomic<bool> got_joint_state_;
+  std::atomic<bool> scan_started_;
+  std::shared_ptr<moveit::planning_interface::MoveGroupInterface> move_group_interface_;
+  std::thread scan_thread_;
+};
+
+int main(int argc, char **argv)
+{
+  rclcpp::init(argc, argv);
+  auto node = std::make_shared<SequenceNode>();
+  if (!node->initialize()) {
+    RCLCPP_ERROR(node->get_logger(), "Initialization failed. Exiting.");
+    rclcpp::shutdown();
+    return 1;
+  }
+  rclcpp::spin(node);
+  rclcpp::shutdown();
+  return 0;
+}
