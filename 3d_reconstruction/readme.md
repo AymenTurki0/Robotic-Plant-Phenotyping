@@ -56,9 +56,9 @@ R_{\text{axis}}(\theta)
 =
 I
 +
-\sin(\theta)[a]_\times
+\sin(\theta)[a]_{\times}
 +
-(1-\cos(\theta))[a]_\times^2
+(1-\cos(\theta))[a]_{\times}^{2}
 $$
 
 The resulting robotic trajectory provides a reference for evaluating reconstructed camera poses.
@@ -142,7 +142,7 @@ e_R^{(i)}
 \frac{
 \operatorname{tr}
 \left(
-R_i\hat{R}_i^\top
+R_i\hat{R}_i^{\top}
 \right)-1
 }{2}
 \right)
@@ -234,7 +234,7 @@ T(t)
 \exp
 \left(
 -\int_{t_n}^{t}
-\sigma(r(s))ds
+\sigma(r(s))\,ds
 \right)
 $$
 
@@ -260,7 +260,7 @@ The covariance projection from 3D space to image space is expressed as:
 $$
 \Sigma'
 =
-JW\Sigma W^\top J^\top
+JW\Sigma W^{\top}J^{\top}
 $$
 
 where $W$ represents the world-to-camera transformation and $J$ is the Jacobian of the projection.
