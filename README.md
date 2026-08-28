@@ -151,16 +151,16 @@ For the evaluated **Ribes_04** plant:
 ```text
 Robotic-Plant-Phenotyping/
 │
-├── 3d_reconstruction/
-├── segmentation/
-├── SSL adaptation/
-│   ├── utonia/
-│   └── barlow twins/
-├── skeletonization/
-├── jetcobot_ws/
-├── kinematics_pose/
-├── docs/
-└── references/
+├── 3d_reconstruction/     # RGB-based 3D plant point cloud reconstruction
+├── segmentation/          # Semantic segmentation of plant point clouds
+├── SSL adaptation/        # Self-supervised adaptation for robust 3D segmentation
+│   ├── utonia/            # UToNIA-based representation learning and adaptation
+│   └── barlow twins/      # Barlow Twins self-supervised representation learning
+├── skeletonization/       # Plant skeleton extraction and phenotypic analysis
+├── jetcobot_ws/           # ROS 2 workspace for JetCobot acquisition and control
+├── kinematics_pose/       # Kinematic analysis and viewpoint/pose planning
+├── docs/                  # Research paper and project presentation
+└── references/            # Related research papers, datasets, and methods
 ```
 
 ## 📄 Paper & Presentation
