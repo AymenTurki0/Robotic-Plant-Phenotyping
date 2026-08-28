@@ -111,7 +111,7 @@ The Barlow Twins objective is:
 
 The diagonal term encourages **invariance** between the ground-truth and reconstructed representations, while the off-diagonal term reduces **redundancy** between feature dimensions.
 
-See [`barlow twins/`](./barlow%20twins/) for the corresponding experiments.
+See [`barlow twins/`](./Barlow_Twins/) for the corresponding experiments.
 
 ## Objective
 
