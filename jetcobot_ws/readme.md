@@ -12,7 +12,7 @@ The `jetcobot_gazebo` package provides the **Gazebo simulation of the JetCobot r
 
 ## 📷 Automated Scanning
 
-The `scan_automation` package executes the **automated plant scanning sequence**, controlling robot waypoints, camera acquisition, and turntable motion.
+The `scan_automation` package executes the **automated plant scanning sequence**, controlling robot waypoints, camera acquisition.
 
 <p align="center">
   <img src="../images/scanning_sequence.png" width="800">
@@ -24,11 +24,7 @@ The captured acquisition data are stored in:
 data_capture/
 ```
 
-and are subsequently used for **3D reconstruction and plant phenotyping**.
 
-<p align="center">
-  <img src="../images/data_capture.png" width="800">
-</p>
 
 ## 📁 Workspace Structure
 
