@@ -1,4 +1,4 @@
-```markdown
+
 # 🦴 Skeletonization
 
 ![Skeletonization Pipeline](./skeletonization.png)
