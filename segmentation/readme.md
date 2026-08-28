@@ -58,20 +58,7 @@ A degradation pipeline is used to evaluate segmentation robustness under variati
 
 ---
 
-## Directory Structure
 
-```
-.
-├── README.md
-├── assets/
-│   ├── pointnetpp.jpg
-│   ├── dgcnn.png
-│   ├── ptv3.jpg
-│   └── result.png
-├── data/              # PLANesT3D dataset (not included, see below)
-├── models/            # Model implementations / checkpoints
-└── scripts/           # Training, evaluation, and degradation scripts
-```
 
 ## Dataset
 
