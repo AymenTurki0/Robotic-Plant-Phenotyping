@@ -1,5 +1,5 @@
 
-````markdown
+
 # 🌿 Robotic Plant Phenotyping: 3D Reconstruction & Camera Pose Estimation
 
 [![ROS 2](https://img.shields.io/badge/ROS%202-Jazzy%20Jalisco-blue)](https://docs.ros.org/)
