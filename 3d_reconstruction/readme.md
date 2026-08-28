@@ -63,11 +63,7 @@ $$
 
 The resulting robotic trajectory provides a reference for evaluating reconstructed camera poses.
 
-### Acquisition Setup
 
-![JetCobot RGB Acquisition](./images/jetcobot_rgb_acquisition.png)
-
----
 
 # 🔄 Complete Reconstruction Pipeline
 
@@ -107,10 +103,6 @@ The reconstructed camera poses and scene information are used by:
 
 * **NeRF**
 * **3D Gaussian Splatting**
-
-### Pipeline Overview
-
-![3D Reconstruction Pipeline](./images/reconstruction_pipeline.png)
 
 ---
 
@@ -273,9 +265,6 @@ COLMAP sparse points can be used to initialize the Gaussian representation.
 
 ---
 
-### Pose Evaluation
-
-![Camera Pose Evaluation](./images/pose_evaluation.png)
 
 # 📚 References
 
