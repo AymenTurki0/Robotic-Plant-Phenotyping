@@ -1,5 +1,4 @@
-
-
+````markdown
 # 🌿 Robotic Plant Phenotyping: 3D Reconstruction & Camera Pose Estimation
 
 [![ROS 2](https://img.shields.io/badge/ROS%202-Jazzy%20Jalisco-blue)](https://docs.ros.org/)
@@ -43,7 +42,7 @@ $$
 T_{\text{base}}^{\text{cam}}
 =
 \left(
-\prod_{j=1}^{6}T_j(\theta_j)
+\prod_{j=1}^{6} T_j(\theta_j)
 \right)
 T_{\text{camera}}
 $$
@@ -124,7 +123,7 @@ Estimated camera poses $(\hat{t}_i,\hat{R}_i)$ are compared against reference po
 The translational error is evaluated using ATE RMSE:
 
 $$
-\text{ATE}_{\text{RMSE}}
+\mathrm{ATE}_{\mathrm{RMSE}}
 =
 \sqrt{
 \frac{1}{N}
@@ -145,7 +144,10 @@ e_R^{(i)}
 \cos^{-1}
 \left(
 \frac{
-\operatorname{tr}(R_i\hat{R}_i^\top)-1
+\operatorname{tr}
+\left(
+R_i\hat{R}_i^\top
+\right)-1
 }{2}
 \right)
 \frac{180^\circ}{\pi}
@@ -271,64 +273,9 @@ COLMAP sparse points can be used to initialize the Gaussian representation.
 
 ---
 
-# 📊 Experimental Results
-
-Experiments were performed on synthetic and physical plant datasets, including **Ribes_04**.
-
-## Reconstruction Rendering Quality
-
-| Pipeline          | PSNR (dB) ↑ |   SSIM ↑ |  LPIPS ↓ | Rendering Speed |
-| ----------------- | ----------: | -------: | -------: | --------------: |
-| **NeRF (COLMAP)** |   **19.93** |     0.79 |     0.16 |        ~2.5 FPS |
-| NeRF (MASt3R)     |       14.17 |     0.55 |     0.42 |        ~2.5 FPS |
-| **3DGS (COLMAP)** |       19.00 | **0.85** | **0.11** |    **>120 FPS** |
-
-## Camera Pose Evaluation
-
-### COLMAP
-
-* Stable trajectory throughout the evaluated acquisition sequence.
-* Low translational error.
-* ATE RMSE below approximately **0.015 m** in the evaluated sequence.
-
-### MASt3R
-
-* Dense geometric reconstruction without requiring the same classical SfM pipeline.
-* More sensitive to repetitive and visually similar leaf structures.
-* Larger trajectory deviations were observed in challenging portions of the sequence.
-
 ### Pose Evaluation
 
 ![Camera Pose Evaluation](./images/pose_evaluation.png)
-
----
-
-# 📁 Repository Structure
-
-```text
-Robotic-Plant-Phenotyping/
-│
-├── 3d_reconstruction/
-│   ├── dataset_loaders/
-│   │   ├── colmap_dataset_loader.py
-│   │   ├── Mast3R_dataset_loader.py
-│   │   ├── gaussian_dataset_loader.py
-│   │   └── nerf_dataset_loader.py
-│   │
-│   ├── output/
-│   │   └── README.md
-│   │
-│   └── README.md
-│
-└── jetcobot_ws/
-    └── ...
-```
-
-Large reconstructed **PLY point clouds** are intentionally not included in the repository because of their file size.
-
-The reconstruction outputs can be generated from the captured image datasets using the corresponding pipelines.
-
----
 
 # 📚 References
 
