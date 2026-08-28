@@ -11,8 +11,18 @@ This module extracts 1D curve skeletons and topological graphs from 3D plant poi
 The core contraction process iteratively solves the linear system:
 
 $$
-\begin{bmatrix} \mathbf{W}_L \mathbf{L} \\ \mathbf{W}_H \end{bmatrix} \mathbf{P}' = \begin{bmatrix} \mathbf{0} \\ \mathbf{W}_H \mathbf{P} \end{bmatrix}
+\begin{bmatrix} 
+\mathbf{W}_L \mathbf{L} \\ 
+\mathbf{W}_H 
+\end{bmatrix}
+\mathbf{P}'
+=
+\begin{bmatrix} 
+\mathbf{0} \\ 
+\mathbf{W}_H \mathbf{P} 
+\end{bmatrix}
 $$
+
 
 ### Algebraic Description
 
