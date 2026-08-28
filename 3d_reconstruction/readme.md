@@ -51,9 +51,6 @@ $$
 
 The resulting robotic trajectory provides a reference for evaluating reconstructed camera poses.
 
-### Camera Pose Reference
-
-![Camera Pose Reference](./img/Screenshot%20from%202026-08-28%2016-17-29.png)
 
 ---
 
@@ -125,14 +122,15 @@ $$
 $$
 
 ### Camera Trajectory Comparison
+![Camera Pose Comparison](./img/Screenshot from 2026-08-28 16-17-29.png)
 
-![Camera Pose Comparison](./img/sfm2.png)
 
 ---
 
 ## 1. COLMAP
 
 ![COLMAP Structure-from-Motion](./img/sfm1.jpg)
+![[COLMAP Structure-from-Motion]](./img/sfm2.png)
 
 **COLMAP** is used as the classical Structure-from-Motion baseline.
 
