@@ -1,7 +1,7 @@
 
 # 🦴 Skeletonization
 
-![Skeletonization Pipeline](./skeletonization.png)
+![Skeletonization Pipeline](.Skeletonization.png)
 
 This module extracts 1D curve skeletons and topological graphs from 3D plant point clouds using **[PC-Skeletor](https://github.com/meyerls/pc-skeletor)**. It implements both **Laplacian-Based Contraction (LBC)** and **Semantic Laplacian-Based Contraction (S-LBC)** to convert point clouds into clean line graphs for measuring plant branching, internode lengths, and structural traits.
 
