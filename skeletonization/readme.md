@@ -9,22 +9,14 @@ This module extracts 1D curve skeletons and topological graphs from 3D plant poi
 ## 🧮 Mathematical Formulation
 
 The core contraction process iteratively solves the linear system:
-
 $$
-\begin{bmatrix} 
-\mathbf{W}_L \mathbf{L} \\ 
-\mathbf{W}_H 
-\end{bmatrix}
+\begin{bmatrix} \mathbf{W}_L \mathbf{L} \\\\ \mathbf{W}_H \end{bmatrix}
 \mathbf{P}'
 =
-\begin{bmatrix} 
-\mathbf{0} \\ 
-\mathbf{W}_H \mathbf{P} 
-\end{bmatrix}
+\begin{bmatrix} \mathbf{0} \\\\ \mathbf{W}_H \mathbf{P} \end{bmatrix}
 $$
 
-
-### Algebraic Description
+## Algebraic Description
 
 * **$\mathbf{P} \in \mathbb{R}^{n \times 3}$**: Matrix representing the original point cloud of $n$ points.
 * **$\mathbf{P}' \in \mathbb{R}^{n \times 3}$**: Matrix representing the contracted point cloud (target skeleton positions).
