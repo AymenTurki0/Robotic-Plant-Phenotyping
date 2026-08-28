@@ -1,4 +1,4 @@
-# Skeletonization
+# 🦴 Skeletonization
 
 ![Skeletonization Pipeline](./Skeletonization.png)
 
@@ -11,16 +11,10 @@ This module extracts 1D curve skeletons and topological graphs from 3D plant poi
 The core contraction process iteratively solves the linear system:
 
 $$
-\begin{bmatrix}
-\mathbf{W_L}\mathbf{L}\\
-\mathbf{W_H}
-\end{bmatrix}
+\begin{bmatrix} \mathbf{W_L}\mathbf{L} \\ \mathbf{W_H} \end{bmatrix}
 \mathbf{P}'
 =
-\begin{bmatrix}
-\mathbf{0}\\
-\mathbf{W_H}\mathbf{P}
-\end{bmatrix}
+\begin{bmatrix} \mathbf{0} \\ \mathbf{W_H}\mathbf{P} \end{bmatrix}
 $$
 
 ### Algebraic Description
