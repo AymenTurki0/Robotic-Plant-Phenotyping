@@ -1,0 +1,7 @@
+# JetCobot Driver
+
+This package contains the **JetCobot driver and control nodes**.
+
+The package was taken from the original JetCobot resources and **was not modified**.
+
+[JetCobot Google Drive – Official Resources](https://drive.google.com/drive/folders/17ESHzZz1as8qinYm-W5RJok3hkD-Tmsp?usp=drive_link)
