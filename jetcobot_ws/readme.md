@@ -7,7 +7,7 @@ This workspace contains the ROS 2 implementation developed for the **JetCobot ro
 The `jetcobot_gazebo` package provides the **Gazebo simulation of the JetCobot robotic arm**, including the robot, camera, plant environments, and simulation worlds.
 
 <p align="center">
-  <img src="../img/JETCOBOT.jpg" width="400">
+  <img src="img/JETCOBOT.jpg" width="400">
 </p>
 
 ## 📷 Automated Scanning
@@ -15,7 +15,7 @@ The `jetcobot_gazebo` package provides the **Gazebo simulation of the JetCobot r
 The `scan_automation` package executes the **automated plant scanning sequence**, controlling robot waypoints, camera acquisition.
 
 <p align="center">
-  <img src="../img/Screenshot from 2026-08-28 14-44-44.png" width="400">
+  <img src="img/Screenshot from 2026-08-28 14-44-44.png" width="400">
 </p>
 
 The captured acquisition data are stored in:
