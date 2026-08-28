@@ -186,5 +186,5 @@ The `references/` directory contains the main research papers and resources used
 
 <p align="center">
   <b>Aymen Turki</b><br>
-  INSAT · Intern at the <b>Intelligent Systems and Analytics (ISA) Group · NTNU</b>
+  INSAT · Intern at the <b>Intelligent Systems and Analytics (ISA) Group · </b>
 </p>
