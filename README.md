@@ -7,7 +7,7 @@ An end-to-end robotic pipeline for **automated plant acquisition, 3D reconstruct
 The system combines a **7-axis JetCobot**, ROS 2, multi-view RGB imaging, modern 3D reconstruction, point-cloud deep learning, and self-supervised representation learning.
 
 <p align="center">
-  <img src="./docs/plant_phenotyping.gif" width="850">
+  <img src="./assets/PlantGrowth.gif" width="850">
 </p>
 
 <p align="center">
