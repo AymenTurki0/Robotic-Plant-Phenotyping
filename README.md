@@ -1,25 +1,18 @@
 # 🌱 Robotic Plant Phenotyping
 
-<p align="center">
-  <img src="https://www.ntnu.edu/documents/1294179/0/NTNU_logo.png" width="260">
-</p>
+**Robust 3D plant phenotyping from monocular RGB images**
 
-<p align="center">
-  <b>Robust 3D plant phenotyping from monocular RGB images</b>
-</p>
+An end-to-end robotic pipeline for **automated plant acquisition, 3D reconstruction, point-cloud segmentation, skeletonization, and phenotypic analysis**.
 
-<p align="center">
-  <b>Aymen Turki</b><br>
-  INSAT · Intern at the Intelligent Systems and Analytics (ISA) Group · NTNU
-</p>
+The system combines a **7-axis JetCobot**, ROS 2, multi-view RGB imaging, modern 3D reconstruction, point-cloud deep learning, and self-supervised representation learning.
 
 <p align="center">
   <img src="./docs/plant_phenotyping.gif" width="850">
 </p>
 
-An end-to-end robotic pipeline for **automated plant acquisition, 3D reconstruction, point-cloud segmentation, skeletonization, and phenotypic analysis** using a monocular RGB camera mounted on a 7-axis robotic arm.
-
-The project investigates how reconstruction artifacts affect downstream 3D plant understanding and explores self-supervised learning for improved robustness.
+<p align="center">
+  <b>Robotic acquisition → 3D reconstruction → segmentation → skeletonization → phenotyping</b>
+</p>
 
 ## 🔬 Pipeline
 
@@ -37,7 +30,7 @@ Skeletonization
 3D Plant Phenotyping
 ```
 
-The system combines **JetCobot, ROS 2, MoveIt2, Gazebo, COLMAP, MASt3R, NeRF, 3D Gaussian Splatting, PTv3, Utonia, Barlow Twins, and PC-Skeletor**.
+The workflow combines robotic multi-view acquisition with 3D reconstruction, point-cloud analysis, self-supervised learning, skeletonization, and phenotypic trait extraction.
 
 <p align="center">
   <img src="./docs/pipeline.png" width="900">
@@ -45,13 +38,13 @@ The system combines **JetCobot, ROS 2, MoveIt2, Gazebo, COLMAP, MASt3R, NeRF, 3D
 
 ## 🤖 Robotic Acquisition
 
-A **JetCobot 7-axis collaborative robotic arm** carries a wrist-mounted monocular RGB camera around the plant to acquire multi-view images.
+A **JetCobot 7-axis robotic arm** carries a wrist-mounted monocular RGB camera around the plant to capture multiple views.
 
-ROS 2 and MoveIt2 are used for motion planning and control, while Gazebo provides a simulated environment for trajectory validation and ground-truth camera poses.
+ROS 2 and MoveIt2 control the scanning process, while Gazebo is used to validate trajectories and provide ground-truth camera poses.
 
 ## 🌐 3D Reconstruction
 
-RGB images are reconstructed using two complementary approaches:
+RGB images are reconstructed using **COLMAP** and **MASt3R**, with **NeRF** and **3D Gaussian Splatting** evaluated as neural scene representations.
 
 | Method                    | Purpose                                             |
 | ------------------------- | --------------------------------------------------- |
@@ -64,37 +57,39 @@ COLMAP provides more stable camera trajectories in the evaluated setup, while MA
 
 ## 🧠 Point-Cloud Segmentation
 
-The reconstructed plant point clouds are evaluated with:
+Three 3D segmentation architectures are evaluated:
 
 **PointNet++ · DGCNN · Point Transformer V3**
 
-PTv3 provides the strongest clean-data baseline with **93.54% mIoU**. Reconstruction artifacts introduce missing points, uneven density, and geometric variations that reduce segmentation performance.
+PTv3 achieves the strongest clean-data baseline with **93.54% mIoU**.
+
+Reconstruction artifacts such as missing points, uneven density, and geometric variations reduce segmentation performance.
 
 ## 🔄 Self-Supervised Adaptation
 
-Paired clean and reconstructed point clouds are used to learn representations that are more robust to reconstruction artifacts.
+Paired **clean and reconstructed point clouds** are used for self-supervised representation learning to improve robustness to reconstruction artifacts.
 
-Two approaches are investigated:
+**Utonia**
+Transferable 3D representation learning.
 
-**Utonia** — transferable 3D representation learning.
+**Barlow Twins**
+Representation alignment through invariance and redundancy reduction.
 
-**Barlow Twins** — representation alignment through invariance and redundancy reduction.
-
-### Barlow Twins Result
+### Result
 
 **87.31% → 89.03% mIoU**
 
-**+1.72 percentage points** on reconstructed point clouds compared with supervised PTv3.
+**+1.72 percentage points** on reconstructed point clouds with Barlow Twins.
 
 ## 🦴 Skeletonization
 
-Following segmentation, the plant geometry is converted into a structural skeleton using **Laplacian-Based Contraction (LBC)** with the **PC-Skeletor** framework.
+Following segmentation, the plant geometry is converted into a structural skeleton using **Laplacian-Based Contraction (LBC)** with **PC-Skeletor**.
 
-The skeleton provides a compact representation for structural and topological analysis, including plant connectivity and organ geometry.
+The resulting skeleton provides a compact representation for geometric and topological plant analysis.
 
 ## 🌿 3D Phenotyping
 
-The resulting 3D plant representation is used to extract quantitative traits including:
+The reconstructed and segmented plant is used to extract quantitative traits describing its geometry, structure, and appearance.
 
 **Geometry**
 Leaf dimensions · plant height · canopy width · volume
@@ -157,12 +152,11 @@ Robotic-Plant-Phenotyping/
 
 ## 📚 References
 
-The `references/` directory contains the main research papers and resources used for the reconstruction, segmentation, self-supervised learning, skeletonization, and plant phenotyping stages.
+The `references/` directory contains the main research papers and resources used throughout the project.
 
 ## 👤 Author
 
-**Aymen Turki**
-
-INSAT · Intern at the **Intelligent Systems and Analytics (ISA) Group, NTNU**
-
-Focus: **robotic 3D plant phenotyping · 3D reconstruction · point-cloud segmentation · self-supervised learning**
+<p align="center">
+  <b>Aymen Turki</b><br>
+  INSAT · Intern at the <b>Intelligent Systems and Analytics (ISA) Group · NTNU</b>
+</p>
