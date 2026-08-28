@@ -1,0 +1,13 @@
+{
+  "vegetation_fraction_pct": 78.59229850314945,
+  "mean_ExG": 0.21203741159458195,
+  "mean_GLI": 0.18895353764772244,
+  "mean_VARI": 0.34818206713155114,
+  "mean_NGRDI": 0.09370328550403649,
+  "health_category_pct": {
+    "Healthy (vigorous green)": 64.1086858999669,
+    "Moderate (light green)": 15.770947758924565,
+    "Stressed / chlorotic (yellowing)": 6.475823402214109,
+    "Necrotic / senescent (brown-red)": 13.644542938894425
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "sample_name": "Ribes_04",
+  "n_points_total": 1190366,
+  "n_semantic_classes": 2,
+  "n_instances": 33,
+  "axis_up": "z",
+  "plant_height": 34.6376485509048,
+  "canopy_width_1": 21.713918298723463,
+  "canopy_width_2": 22.159561034886,
+  "bounding_box_dims_xyz": [
+    21.713918298723463,
+    22.159561034886,
+    34.6376485509048
+  ],
+  "bounding_box_volume": 16666.628452550838,
+  "convex_hull_volume": 7324.699812677517,
+  "convex_hull_surface_area": 2097.873593352361,
+  "point_density_per_bbox_volume": 71.4221237599986,
+  "point_density_per_hull_volume": 162.51396377223904,
+  "mean_confidence": 31.0602201339756,
+  "median_confidence": 25.0,
+  "min_confidence": 1.0,
+  "max_confidence": 177.0
+}
