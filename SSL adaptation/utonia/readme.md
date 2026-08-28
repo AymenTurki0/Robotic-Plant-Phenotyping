@@ -10,21 +10,21 @@ Utonia is a **self-supervised 3D point-cloud foundation model** designed to lear
 
 Given a point cloud
 
-$$
+```math
 \mathcal{P}=\{(\mathbf{x}_i,\mathbf{f}_i)\}_{i=1}^{N},
-$$
+```
 
 where $\mathbf{x}_i\in\mathbb{R}^3$ represents the 3D position and $\mathbf{f}_i$ the point features, Utonia learns an encoder
 
-$$
+```math
 \mathbf{Z}=f_{\theta}(\mathcal{P})
-$$
+```
 
 that produces geometry-aware point representations.
 
 The training objective encourages consistent representations between different views or transformations of the same point cloud:
 
-$$
+```math
 \mathcal{L}_{SSL}
 =
 \mathcal{L}
@@ -32,7 +32,7 @@ $$
 f_{\theta}\left(\mathcal{T}_{1}(\mathcal{P})\right),
 f_{\theta}\left(\mathcal{T}_{2}(\mathcal{P})\right)
 \right)
-$$
+```
 
 where $\mathcal{T}*{1}$ and $\mathcal{T}*{2}$ denote different point-cloud transformations or views.
 
