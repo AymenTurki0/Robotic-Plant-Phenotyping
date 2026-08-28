@@ -122,7 +122,7 @@ $$
 $$
 
 ### Camera Trajectory Comparison
-![Camera Pose Comparison](./img/Screenshot from 2026-08-28 16-17-29.png)
+![Camera Pose Comparison](./img/com.png)
 
 
 ---
