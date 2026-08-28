@@ -2,9 +2,9 @@
 
 **Robust 3D plant phenotyping from monocular RGB images**
 
-An end-to-end robotic pipeline for **automated plant acquisition, 3D reconstruction, point-cloud segmentation, skeletonization, and phenotypic analysis**.
+An end-to-end robotic pipeline for **automated plant phenotyping**, covering robotic image acquisition, multi-view 3D reconstruction, point-cloud segmentation, plant skeletonization, and quantitative trait analysis.
 
-The system combines a **7-axis JetCobot**, ROS 2, multi-view RGB imaging, modern 3D reconstruction, point-cloud deep learning, and self-supervised representation learning.
+The system integrates a **7-axis JetCobot robotic arm**, **ROS 2**, multi-view RGB imaging, 3D reconstruction methods, deep learning for point-cloud segmentation, and **self-supervised learning** to build a robust and automated plant analysis workflow.
 
 <p align="center">
   <img src="./assets/PlantGrowth.gif" width="450">
