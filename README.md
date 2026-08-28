@@ -162,8 +162,7 @@ Robotic-Plant-Phenotyping/
 ├── docs/                  # Research paper and project presentation
 └── references/            # Related research papers, datasets, and methods
 ```
-
-## 📄 Paper & Presentation
+## 📄 Paper, Presentation & Guide
 
 <p align="center">
   <a href="./docs/Towards_Robust_3D_Plant_Phenotyping__Robotic_RGB_Reconstruction__Point_Cloud_Segmentation__and_Self_Supervised_Adaptation_V5.0.pdf">
@@ -172,6 +171,10 @@ Robotic-Plant-Phenotyping/
   &nbsp;
   <a href="./docs/Jetcobot_Plant_phenotyping_Internship_Presentation.pdf">
     <img src="https://img.shields.io/badge/Presentation-PDF-blue?style=for-the-badge">
+  </a>
+  &nbsp;
+  <a href="./docs/JetCobot_ROS2_Execution_Guide.pdf">
+    <img src="https://img.shields.io/badge/ROS2%20Execution%20Guide-PDF-green?style=for-the-badge">
   </a>
 </p>
 
