@@ -42,7 +42,7 @@ A **JetCobot 7-axis robotic arm** carries a wrist-mounted monocular RGB camera a
 
 ROS 2 and MoveIt2 control the scanning process, while Gazebo is used to validate trajectories and provide ground-truth camera poses.
 
-## 🌐 3D Reconstruction
+##  3D Reconstruction
 
 RGB images are reconstructed using **COLMAP** and **MASt3R**, with **NeRF** and **3D Gaussian Splatting** evaluated as neural scene representations.
 
@@ -141,11 +141,11 @@ Robotic-Plant-Phenotyping/
 ## 📄 Paper & Presentation
 
 <p align="center">
-  <a href="./docs/paper.pdf">
+  <a href="./docs/Towards_Robust_3D_Plant_Phenotyping__Robotic_RGB_Reconstruction__Point_Cloud_Segmentation__and_Self_Supervised_Adaptation.pdf">
     <img src="https://img.shields.io/badge/Research%20Paper-PDF-red?style=for-the-badge">
   </a>
   &nbsp;
-  <a href="./docs/presentation.pdf">
+  <a href="./docs/Jetcobot_Plant_phenotyping_Internship_Presentation.pdf">
     <img src="https://img.shields.io/badge/Presentation-PDF-blue?style=for-the-badge">
   </a>
 </p>
