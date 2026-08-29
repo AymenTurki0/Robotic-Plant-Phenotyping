@@ -1,7 +1,10 @@
 # 🌱 Robotic Plant Phenotyping
+Updated Top Badge Block
+Markdown
 <p align="center">
-  <a href="./docs/Towards_Robust_3D_Plant_Phenotyping__Robotic_RGB_Reconstruction__Point_Cloud_Segmentation__and_Self_Supervised_Adaptation_V5.0.pdf">
-    <img src="https://img.shields.io/badge/Paper-PDF-red?style=flat-square&logo=adobeacrobatreader&logoColor=white" alt="Paper PDF">
+  <!-- Robotics & Core Stack -->
+  <a href="#-robotic-acquisition">
+    <img src="https://img.shields.io/badge/Robot-JetCobot%207--Axis-7D5FFF?style=flat-square&logo=robot&logoColor=white" alt="JetCobot Robot">
   </a>
   <a href="https://docs.ros.org/en/jazzy/">
     <img src="https://img.shields.io/badge/ROS%202-Jazzy-22314E?style=flat-square&logo=ros&logoColor=white" alt="ROS 2">
@@ -18,6 +21,7 @@
 </p>
 
 <p align="center">
+  <!-- 3D Vision & AI Stack -->
   <a href="https://colmap.github.io/">
     <img src="https://img.shields.io/badge/SfM-COLMAP-orange?style=flat-square" alt="COLMAP">
   </a>
