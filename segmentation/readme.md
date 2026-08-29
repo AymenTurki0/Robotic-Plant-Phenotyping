@@ -71,7 +71,3 @@ Experiments use the **PLANesT3D** dataset of 3D plant point clouds. Place the da
 3. Wu, X., et al. *Point Transformer V3: Simpler, Faster, Stronger.* CVPR 2024. Code: https://github.com/Pointcept/PointTransformerV3
 4. Point Transformer V3 overview/review: https://liner.com/review/point-transformer-v3-simpler-faster-stronger
 
-## Notes
-
-- Image paths above match the files you provided: `pointnetpp.jpg`, `dgcnn.png`, `ptv3.jpg`, and `result.png`. Place them in an `assets/` folder alongside this README (or update the paths to wherever they actually live in the repo).
-- Equations render on platforms that support LaTeX-in-Markdown (e.g. GitHub with MathJax rendering, GitLab, or Jupyter). If your viewer doesn't support this, consider replacing them with static images.
