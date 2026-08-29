@@ -1,5 +1,42 @@
 # 🌱 Robotic Plant Phenotyping
+<p align="center">
+  <a href="./docs/Towards_Robust_3D_Plant_Phenotyping__Robotic_RGB_Reconstruction__Point_Cloud_Segmentation__and_Self_Supervised_Adaptation_V5.0.pdf">
+    <img src="https://img.shields.io/badge/Paper-PDF-red?style=flat-square&logo=adobeacrobatreader&logoColor=white" alt="Paper PDF">
+  </a>
+  <a href="https://docs.ros.org/en/jazzy/">
+    <img src="https://img.shields.io/badge/ROS%202-Jazzy-22314E?style=flat-square&logo=ros&logoColor=white" alt="ROS 2">
+  </a>
+  <a href="https://moveit.ros.org/">
+    <img src="https://img.shields.io/badge/MoveIt-2-blue?style=flat-square" alt="MoveIt2">
+  </a>
+  <a href="https://www.python.org/">
+    <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+  </a>
+  <a href="https://pytorch.org/">
+    <img src="https://img.shields.io/badge/PyTorch-2.x-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch">
+  </a>
+</p>
 
+<p align="center">
+  <a href="https://colmap.github.io/">
+    <img src="https://img.shields.io/badge/SfM-COLMAP-orange?style=flat-square" alt="COLMAP">
+  </a>
+  <a href="https://github.com/naver/mast3r">
+    <img src="https://img.shields.io/badge/Model-MASt3R-6C5CE7?style=flat-square" alt="MASt3R">
+  </a>
+  <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">
+    <img src="https://img.shields.io/badge/3D-Gaussian%20Splatting-E84393?style=flat-square" alt="3DGS">
+  </a>
+  <a href="https://www.matthewtancik.com/nerf">
+    <img src="https://img.shields.io/badge/3D-NeRF-D63031?style=flat-square" alt="NeRF">
+  </a>
+  <a href="https://github.com/Pointcept/PointTransformerV3">
+    <img src="https://img.shields.io/badge/3D%20Seg-PTv3-00CEC9?style=flat-square" alt="PTv3">
+  </a>
+  <a href="https://arxiv.org/abs/2103.03230">
+    <img src="https://img.shields.io/badge/SSL-Barlow%20Twins%20(%2B1.72%20pp)-00B894?style=flat-square" alt="Barlow Twins">
+  </a>
+</p>
 **Robust 3D plant phenotyping from monocular RGB images**
 
 An end-to-end robotic pipeline for **automated plant phenotyping**, covering robotic image acquisition, multi-view 3D reconstruction, point-cloud segmentation, plant skeletonization, and quantitative trait analysis.
