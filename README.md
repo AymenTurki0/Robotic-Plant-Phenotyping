@@ -1,6 +1,5 @@
 # 🌱 Robotic Plant Phenotyping
-Updated Top Badge Block
-Markdown
+
 <p align="center">
   <!-- Robotics & Core Stack -->
   <a href="#-robotic-acquisition">
