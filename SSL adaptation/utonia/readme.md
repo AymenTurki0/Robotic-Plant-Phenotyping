@@ -47,7 +47,7 @@ Utonia introduces **Causal Modality Blinding**, **Perceptual Granularity Rescale
 
 Training behavior is monitored using the generated learning curves:
 
-![Training Curves](./00_training_curves.png)
+![Training Curves](./00_training_curves.jpg)
 
 ## References
 
