@@ -4,7 +4,6 @@ Utonia is a **self-supervised 3D point-cloud foundation model** designed to lear
 
 ![Utonia](./utonia.png)
 
-![Utonia Architecture](./utonia.svg)
 
 ## Method
 
