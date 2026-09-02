@@ -73,7 +73,7 @@ Skeletonization
 The workflow combines robotic multi-view acquisition with 3D reconstruction, point-cloud analysis, self-supervised learning, skeletonization, and phenotypic trait extraction.
 
 <p align="center">
-  <img src="./assets/pipeline.jpeg" width="900">
+  <img src="./assets/pipeline.jpg" width="900">
 </p>
 
 ## 🤖 Robotic Acquisition
